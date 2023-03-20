@@ -167,7 +167,17 @@ const displayQuestionFive = () => {
 }
 
 const displayResults = () => {
-    alert('you want results!')
+    divHead.textContent = 'Results';
+    divText.textContent = `You scored ${correct} out of 5!`;
+    topRow.innerHTML = ``;
+    botRow.innerHTML = ``;
+    feedback.textContent = '';
+    next.innerHTML = `<button>Play Again</button>`;
+    next.children[0].addEventListener('click', function() {
+        correct = 0;
+        displayQuestionOne();
+    })
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
