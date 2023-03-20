@@ -2,6 +2,8 @@
 
 [This project](https://pvieira04.github.io/mastermaths/) is now live on Github Pages.
 
+FilmFanatic is a site where users can play a quiz game which is all about film.
+
 ![Responsiveness Showcase via amiresponsive.co.uk]()
 
 ## [Contents](#contents)
