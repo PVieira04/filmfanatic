@@ -3,6 +3,7 @@ let divText = document.getElementById('div-text');
 let topRow = document.getElementById('top-row');
 let botRow = document.getElementById('bot-row');
 let feedback = document.getElementById('feedback');
+let correct = 0;
 
 const displayQuestionOne = () => {
     divHead.textContent = 'Question 1';
@@ -21,6 +22,7 @@ const displayQuestionOne = () => {
             else if (button.textContent === document.getElementById('q2').textContent) {
                 this.style.backgroundColor = 'green';
                 feedback.textContent = 'Correct!';
+                correct++;
             }
             else {
                 this.style.backgroundColor = 'red';
@@ -53,6 +55,7 @@ const displayQuestionTwo = () => {
             else if (button.textContent === document.getElementById('q4').textContent) {
                 this.style.backgroundColor = 'green';
                 feedback.textContent = 'Correct!';
+                correct++;
             }
             else {
                 this.style.backgroundColor = 'red';
@@ -84,6 +87,7 @@ const displayQuestionThree = () => {
             else if (button.textContent === document.getElementById('q3').textContent) {
                 this.style.backgroundColor = 'green';
                 feedback.textContent = 'Correct!';
+                correct++;
             }
             else {
                 this.style.backgroundColor = 'red';
@@ -99,7 +103,71 @@ const displayQuestionThree = () => {
 }
 
 const displayQuestionFour = () => {
-    alert('you want q4!')
+    divHead.textContent = 'Question 4';
+    divText.textContent = `Who played the principal character in 1998's Doctor Dolittle?`;
+    topRow.innerHTML = `<button id='q1' class='option'>Charlie Murphy</button><button id='q2' class='option'>Chris Rock</button>`;
+    botRow.innerHTML = `<button id='q3' class='option'>Chris Tucker</button><button id='q4' class='option'>Eddie Murphy</button>`;
+    feedback.textContent = '';
+    next.innerHTML = '';
+    let answered = false;
+    let buttons = document.getElementsByClassName('option');
+    for (let button of buttons) {
+        button.addEventListener('click', function highlightSelection() {
+            if (answered === true) {
+                return
+            }
+            else if (button.textContent === document.getElementById('q4').textContent) {
+                this.style.backgroundColor = 'green';
+                feedback.textContent = 'Correct!';
+                correct++;
+            }
+            else {
+                this.style.backgroundColor = 'red';
+                document.getElementById('feedback').textContent = `Sorry! That is incorrect. The correct answer is ${document.getElementById('q4').textContent}.`;
+            }
+            answered = true;
+            next.innerHTML = `<button id='next-button'>Next Question</button>`;
+            document.getElementById('next-button').addEventListener('click', function() {
+                displayQuestionFive();
+            })
+        })
+    }
+}
+
+const displayQuestionFive = () => {
+    divHead.textContent = 'Question 5';
+    divText.textContent = `Who directed "Titanic", released in 1997?`;
+    topRow.innerHTML = `<button id='q1' class='option'>James Cameron</button><button id='q2' class='option'>Steven Spielberg</button>`;
+    botRow.innerHTML = `<button id='q3' class='option'>Quentin Tarantino</button><button id='q4' class='option'>Frank Darabont</button>`;
+    feedback.textContent = '';
+    next.innerHTML = '';
+    let answered = false;
+    let buttons = document.getElementsByClassName('option');
+    for (let button of buttons) {
+        button.addEventListener('click', function highlightSelection() {
+            if (answered === true) {
+                return
+            }
+            else if (button.textContent === document.getElementById('q1').textContent) {
+                this.style.backgroundColor = 'green';
+                feedback.textContent = 'Correct!';
+                correct++;
+            }
+            else {
+                this.style.backgroundColor = 'red';
+                document.getElementById('feedback').textContent = `Sorry! That is incorrect. The correct answer is ${document.getElementById('q1').textContent}.`;
+            }
+            answered = true;
+            next.innerHTML = `<button id='next-button'>Next Question</button>`;
+            document.getElementById('next-button').addEventListener('click', function() {
+                displayResults();
+            })
+        })
+    }
+}
+
+const displayResults = () => {
+    alert('you want results!')
 }
 
 document.addEventListener('DOMContentLoaded', () => {
