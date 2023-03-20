@@ -5,6 +5,49 @@ let botRow = document.getElementById('bot-row');
 let feedback = document.getElementById('feedback');
 let correct = 0;
 
+const films = [
+    {
+        id : 0001,
+        title : 'Reservoir Dogs',
+        year : 1992,
+        mainChar : 'Mr. White',
+        mainActor : 'Hervery Keitel',
+        director : 'Quentin Tarantino'
+    },
+    {
+        id : 0002,
+        title : 'No Time to Die',
+        year : 2021,
+        mainChar : 'James Bond',
+        mainActor : 'Daniel Craig',
+        director : 'Cary Joji Fukunaga'
+    },
+    {
+        id : 0003,
+        title : 'A New Hope',
+        year : 1977,
+        mainChar : 'Luke Skywalker',
+        mainActor : 'Mark Hamill',
+        director : 'George Lucas'
+    },
+    {
+        id : 0004,
+        title : 'Doctor Dolittle',
+        year : 1998,
+        mainChar : 'Dr, John Dolittle',
+        mainActor : 'Eddie Murphy',
+        director : 'Betty Thomas'
+    },
+    {
+        id : 0005,
+        title : 'Titanic',
+        year : 1997,
+        mainChar : 'Jack Dawson',
+        mainActor : 'Leonardo DiCaprio',
+        director : 'James Cameron'
+    }
+]
+
 const displayQuestionOne = () => {
     divHead.textContent = 'Question 1';
     divText.textContent = `What year was "Reservoir Dogs" released?`;
@@ -167,7 +210,17 @@ const displayQuestionFive = () => {
 }
 
 const displayResults = () => {
-    alert('you want results!')
+    divHead.textContent = 'Results';
+    divText.textContent = `You scored ${correct} out of 5!`;
+    topRow.innerHTML = ``;
+    botRow.innerHTML = ``;
+    feedback.textContent = '';
+    next.innerHTML = `<button>Play Again</button>`;
+    next.children[0].addEventListener('click', function() {
+        correct = 0;
+        displayQuestionOne();
+    })
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
