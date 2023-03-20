@@ -11,10 +11,8 @@ FilmFanatic is a site where users can play a quiz game which is all about film.
 * [User Experience (UX)](#user-experience-ux)
   * [Key Project Goals](#key-project-goals)
   * [Target Audience](#target-audience)
-    * [New User Goals](#new-user-goals)
-    * [Returning User Goals](#returning-user-goals)
-  * [User Story - New Customer](#user-story---new-customer)
-  * [User Story - Returning Customer](#user-story---returning-customer)
+  * [User Goals](#user-goals)
+  * [User Story](#user-story)
 * [Planning](#planning)
   * [Strategy](#strategy)
   * [Scope](#scope)
@@ -42,32 +40,24 @@ FilmFanatic is a site where users can play a quiz game which is all about film.
 ## User Experience (UX)
 
 ### Key Project Goals
-1. 
-2. 
-3. 
-4. 
-5. 
+1. Create a functional quiz which has five static questions.
+2. Create a JSON file which contains quiz questions & allow JS to pull them.
+3. Change JSON file to contain only film information and make questions in real time.
+4. Randomise questions being asked.
+5. Increase number of films stored in JSON.
+6. Connect to an API to pull film information from instead.
 
 ### Target Audience
 
+- All demographics. 
 
+### User Goals
 
-#### New User Goals
+- Wants to play a quiz based on film knowledge
 
-A first time user may want to :
-- 
+### User Story
 
-#### Returning User Goals
-Returning users may want to :
-- 
-
-### User Story - New Customer
-
-- 
-
-### User Story - Returning Customer
-
-- 
+- User lands on website and reads the welcome message. User understands the rules of the game and so clicks on the start game button. They answer the first question and get immediate feedback on whether the answer is correct or not. They click on the button to bring up the next question and continue this process until answering the fifth and final question. Upon answering, user reads the feedback and then clicks on the button to show results.
 
 ## Planning
 In this section, I outline the initial planning stages for this project.
@@ -79,46 +69,61 @@ In this section, I outline the initial planning stages for this project.
 ---
 | **Opportunity / Problem** | **Importance** | **Viability / Feasibility** | **Difficulty** |
 |-----------------------------|:-:|:-:|:-:|
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
-| |  |  |  |
+| Ask question using a uniform template | 5 | 5 | 1 |
+| Generate 4 answers, 1 being correct, 3 being incorrect | 5 | 5 | 2 |
+| Next question replaces the answered question | 5 | 5 | 1 |
+| Ensure no repeating of questions | 5 | 5 | 1 |
+| Score tracker | 5 | 5 | 1 |
+| Welcome message | 5 | 5 | 1 |
+| Ask questions using a range of different templates | 5 | 5 | 2 |
+| Animations for correct answers | 4 | 5 | 2 |
+| Allow user to select decade of movies involved in quiz | 4 | 5 | 3 |
+| Pull question information from an API | 1 | 2 | 5 |
+| Create a leaderboard | 2 | 3 | 4 |
 ---
 
+Sum of Importance = 46
+Sum of Viability = 50
 
+Viability >= Importance so therefore, I could implement all features.
 
 ### Scope
 
--
+- Taking into account the difficulty of each potential feature, I will be leaving out the last three features in my Minimum Viable Project. I will code my project with the aim of adding these features at a later date.
 
 The following features are my scope for this project:
-- 
-- 
-- 
-- 
-- 
+- Ask question using a uniform template	
+- Generate 4 answers, 1 being correct, 3 being incorrect	
+- Next question replaces the answered question	
+- Ensure no repeating of questions	
+- Score tracker	
+- Welcome message	
+- Ask questions using a range of different templates	
+- Animations for correct answers	
 
 ### Structure
 
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
-7. 
+1. Welcome message + instructions + start game button
+2. Question one
+3. Question two
+4. Question three
+5. Question four
+6. Question five
+7. Results
 
 ### Skeleton
 
-[This was my original wireframe]()
+For My skeleton, I wanted to have the layout for 5 different sections:
+1. Welcome message + instructions + start game button
+2. Question display - unanswered
+3. Question display - answered correctly with message and next question button
+4. Question display - answered incorrectly with message and display results button
+5. Results
 
 ### Surface
 
-- 
+- I want this site to be bright, with lots of colour and images. I want typography which also reflects that.
+- Key word: Bubbly. I want my text to be bubbly and fun.
 
 ### Review with Mentor
 
