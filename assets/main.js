@@ -3,6 +3,7 @@ let divText = document.getElementById('div-text');
 let topRow = document.getElementById('top-row');
 let botRow = document.getElementById('bot-row');
 let feedback = document.getElementById('feedback');
+let count = 0;
 let correct = 0;
 
 const films = [
@@ -209,6 +210,39 @@ const displayQuestionFive = () => {
     }
 }
 
+const displayQuestion = () => {
+    divHead.textContent = `Question ${count}`;
+    divText.textContent = ``;
+    topRow.innerHTML = `<button id='q1' class='option'></button><button id='q2' class='option'></button>`;
+    botRow.innerHTML = `<button id='q3' class='option'></button><button id='q4' class='option'></button>`;
+    feedback.textContent = '';
+    next.innerHTML = '';
+    let answered = false;
+    let buttons = document.getElementsByClassName('option');
+    for (let button of buttons) {
+        button.addEventListener('click', function highlightSelection() {
+            if (answered === true) {
+                return
+            }
+            else if (button.textContent === document.getElementById('q2').textContent) {
+                this.style.backgroundColor = 'green';
+                feedback.textContent = 'Correct!';
+                correct++;
+            }
+            else {
+                this.style.backgroundColor = 'red';
+                document.getElementById('feedback').textContent = `Sorry! That is incorrect. The correct answer is ${document.getElementById('q2').textContent}.`;
+            }
+            answered = true;
+            next.innerHTML = `<button id='next-button'>Next Question</button>`;
+            document.getElementById('next-button').addEventListener('click', function() {
+                displayQuestionTwo();
+            })
+        })
+    }
+    
+}
+
 const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
@@ -218,6 +252,7 @@ const displayResults = () => {
     next.innerHTML = `<button>Play Again</button>`;
     next.children[0].addEventListener('click', function() {
         correct = 0;
+        count = 1;
         displayQuestionOne();
     })
 
@@ -226,6 +261,7 @@ const displayResults = () => {
 document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
     start.addEventListener('click', () => {
+        count = 1;
         displayQuestionOne();
     })
 })
