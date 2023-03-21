@@ -213,13 +213,13 @@ const displayQuestionFive = () => {
 const displayQuestion = () => {
     divHead.textContent = `Question ${count}`;
     let idNumber = Math.floor(Math.random() * 5) + 1;
-    console.log(idNumber);
     let i = films.findIndex(((film) => film.id === idNumber));
-    console.log(i);
     let question = generateQuestion(i);
     divText.textContent = question[0];
-    topRow.innerHTML = `<button id='q1' class='option'></button><button id='q2' class='option'></button>`;
-    botRow.innerHTML = `<button id='q3' class='option'></button><button id='q4' class='option'></button>`;
+    let options = generateOptions(i, question[1]);
+    console.log(options);
+    topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
+    botRow.innerHTML = `<button id='q3' class='option'>${options[2]}</button><button id='q4' class='option'>${options[3]}</button>`;
     feedback.textContent = '';
     next.innerHTML = '';
     let answered = false;
@@ -249,7 +249,7 @@ const displayQuestion = () => {
 }
 
 const generateQuestion = (i) => {
-    let qTypeIndex = Math.floor(Math.random() * 4);
+    let qTypeIndex = 0; //Math.floor(Math.random() * 4);
     
     const qTypeArray = [
         `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
@@ -257,7 +257,31 @@ const generateQuestion = (i) => {
         `Who played the principal character in ${films[i].year}'s "${films[i].title}"?`,
         `Who directed "${films[i].title}", released in ${films[i].year}?`
     ]
-    return [qTypeArray[qTypeIndex], i];
+    return [qTypeArray[qTypeIndex], qTypeIndex];
+}
+
+const generateOptions = (i, questionIndex) => {
+    let options = [];
+    switch(questionIndex) {
+        case 0:
+            options = yearOptions(i);
+            break;
+        case 1:
+
+            break;
+        case 2:
+
+            break;
+        case 3:
+
+            break;
+    }
+    return options
+}
+
+const yearOptions = i => {
+    let options = [1992, 1977, 1989, 2021];
+    return options;
 }
 
 const displayResults = () => {
