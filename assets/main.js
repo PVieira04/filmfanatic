@@ -8,7 +8,7 @@ let correct = 0;
 
 const films = [
     {
-        id : 0001,
+        id : 1,
         title : 'Reservoir Dogs',
         year : 1992,
         mainChar : 'Mr. White',
@@ -16,7 +16,7 @@ const films = [
         director : 'Quentin Tarantino'
     },
     {
-        id : 0002,
+        id : 2,
         title : 'No Time to Die',
         year : 2021,
         mainChar : 'James Bond',
@@ -24,7 +24,7 @@ const films = [
         director : 'Cary Joji Fukunaga'
     },
     {
-        id : 0003,
+        id : 3,
         title : 'A New Hope',
         year : 1977,
         mainChar : 'Luke Skywalker',
@@ -32,7 +32,7 @@ const films = [
         director : 'George Lucas'
     },
     {
-        id : 0004,
+        id : 4,
         title : 'Doctor Dolittle',
         year : 1998,
         mainChar : 'Dr, John Dolittle',
@@ -40,7 +40,7 @@ const films = [
         director : 'Betty Thomas'
     },
     {
-        id : 0005,
+        id : 5,
         title : 'Titanic',
         year : 1997,
         mainChar : 'Jack Dawson',
@@ -212,7 +212,11 @@ const displayQuestionFive = () => {
 
 const displayQuestion = () => {
     divHead.textContent = `Question ${count}`;
-    divText.textContent = ``;
+    let idNumber = Math.floor(Math.random() * 5) + 1;
+    console.log(idNumber);
+    let i = films.findIndex(((film) => film.id === idNumber));
+    console.log(i);
+    divText.textContent = generateQuestion(i);
     topRow.innerHTML = `<button id='q1' class='option'></button><button id='q2' class='option'></button>`;
     botRow.innerHTML = `<button id='q3' class='option'></button><button id='q4' class='option'></button>`;
     feedback.textContent = '';
@@ -243,6 +247,15 @@ const displayQuestion = () => {
     
 }
 
+const generateQuestion = (i) => {
+    let qTypeIndex = 0; //Math.random()*5;
+    
+    const qTypeArray = [
+        `${films[i].title}, starring ${films[i].mainActor} as ${films[i].mainChar} was released in which year?`,
+    ]
+    return qTypeArray[qTypeIndex];
+}
+
 const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
@@ -262,6 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
     start.addEventListener('click', () => {
         count = 1;
-        displayQuestionOne();
+        displayQuestion();
     })
 })
