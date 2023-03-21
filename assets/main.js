@@ -116,7 +116,7 @@ const displayQuestionTwo = () => {
 
 const displayQuestionThree = () => {
     divHead.textContent = 'Question 3';
-    divText.textContent = `In the Star Wars universe, on what planet did Luke Skywalker grow up on?`;
+    divText.textContent = `In 1977's "A New Hope", at which location does the film take place?`;
     topRow.innerHTML = `<button id='q1' class='option'>Mandalore</button><button id='q2' class='option'>Toydaria</button>`;
     botRow.innerHTML = `<button id='q3' class='option'>Tatooine</button><button id='q4' class='option'>Alderaan</button>`;
     feedback.textContent = '';
@@ -216,7 +216,8 @@ const displayQuestion = () => {
     console.log(idNumber);
     let i = films.findIndex(((film) => film.id === idNumber));
     console.log(i);
-    divText.textContent = generateQuestion(i);
+    let question = generateQuestion(i);
+    divText.textContent = question[0];
     topRow.innerHTML = `<button id='q1' class='option'></button><button id='q2' class='option'></button>`;
     botRow.innerHTML = `<button id='q3' class='option'></button><button id='q4' class='option'></button>`;
     feedback.textContent = '';
@@ -248,12 +249,15 @@ const displayQuestion = () => {
 }
 
 const generateQuestion = (i) => {
-    let qTypeIndex = 0; //Math.random()*5;
+    let qTypeIndex = Math.floor(Math.random() * 4);
     
     const qTypeArray = [
-        `${films[i].title}, starring ${films[i].mainActor} as ${films[i].mainChar} was released in which year?`,
+        `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
+        `What is the name of the actor who plays ${films[i].mainChar} in "${films[i].title}", released in ${films[i].year}?`,
+        `Who played the principal character in ${films[i].year}'s "${films[i].title}"?`,
+        `Who directed "${films[i].title}", released in ${films[i].year}?`
     ]
-    return qTypeArray[qTypeIndex];
+    return [qTypeArray[qTypeIndex], i];
 }
 
 const displayResults = () => {
