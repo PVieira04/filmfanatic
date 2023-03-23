@@ -58,9 +58,6 @@ const displayQuestion = () => {
     let questionText = questionObject.question;
     divText.textContent = questionText;
     correctFilmIndex = questionObject.correctFilmIndex;
-    fetch('https://pvieira04.github.io/minifilmdatabase/film.json')
-        .then((response) => response.json())
-        .then((json) => console.log(json[correctFilmIndex]));
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     for (let i = 0; i < 4; i++) {
@@ -96,9 +93,20 @@ const displayQuestion = () => {
     }
 }
 
+const fetchFilmObject = correctFilmIndex => {
+    fetch('https://pvieira04.github.io/minifilmdatabase/film.json')
+        .then((response) => response.json())
+        .then((json) => {
+            console.log(json[correctFilmIndex]);
+            console.log(json[correctFilmIndex].id);
+            return json[correctFilmIndex];
+        });
+}
+
 const generateQuestion = () => {
     let i = generateRandomQuestionNumber();
-    questionsAsked.push(films[i].id);
+    console.log(fetchFilmObject(i));
+    questionsAsked.push(fetchFilmObject(i)['id']);
     console.log(`id of questions already asked: ${questionsAsked}`);
     const questionTypeArray = [
         {
