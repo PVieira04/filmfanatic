@@ -58,6 +58,9 @@ const displayQuestion = () => {
     let questionText = questionObject.question;
     divText.textContent = questionText;
     correctFilmIndex = questionObject.correctFilmIndex;
+    fetch('https://pvieira04.github.io/minifilmdatabase/film.json')
+        .then((response) => response.json())
+        .then((json) => console.log(json[correctFilmIndex]));
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     for (let i = 0; i < 4; i++) {
@@ -179,6 +182,10 @@ const displayResults = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
+    console.log(JSON.stringify(films));
+    fetch('./films.json')
+        .then((response) => response.json())
+        .then((json) => console.log(json));
     start.addEventListener('click', () => {
         displayQuestion();
     })
