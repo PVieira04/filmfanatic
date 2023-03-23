@@ -245,7 +245,6 @@ const displayQuestion = () => {
             })
         })
     }
-    
 }
 
 const generateQuestion = (i) => {
@@ -280,7 +279,13 @@ const generateOptions = (i, questionIndex) => {
 }
 
 const yearOptions = i => {
-    let options = [1992, 1977, 1989, 2021];
+    let options = [];
+    // generate a random position for the correct answer
+    // begin loop. If loop position is equal to position for correct answer, push correct answer
+    // if loop position is not euqual to correct answer position, find a random year that exists inside the films object
+    // if it's equal to the correct year, throw it away
+    // if it already exists in the array, throw it away
+    // otherwise add the year
     return options;
 }
 
