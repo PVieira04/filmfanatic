@@ -281,11 +281,31 @@ const generateOptions = (i, questionIndex) => {
 const yearOptions = i => {
     let options = [];
     // generate a random position for the correct answer
+    let correctPosition = Math.floor(Math.random() * 4);
     // begin loop. If loop position is equal to position for correct answer, push correct answer
-    // if loop position is not euqual to correct answer position, find a random year that exists inside the films object
-    // if it's equal to the correct year, throw it away
-    // if it already exists in the array, throw it away
-    // otherwise add the year
+    let loopPosition = 0;
+    while (options.length < 4) {
+        if (loopPosition === correctPosition) {
+            options.push(films[i].year);
+            loopPosition++;
+            continue
+        }
+        // if loop position is not euqual to correct answer position, find a random year that exists inside the films object
+        else {
+            let randomFilmIndex = Math.floor(Math.random() * films.length);
+            // if it's equal to the correct year, throw it away
+            if (films[randomFilmIndex].year === films[i].year) continue
+            // if it already exists in the array, throw it away
+            if (options.includes(films[randomFilmIndex].year)) continue
+            // otherwise add the year
+            options.push(films[randomFilmIndex].year);
+            loopPosition++;
+            continue
+        }
+    }
+    
+    
+    
     return options;
 }
 
