@@ -2,8 +2,10 @@ const divHead = document.getElementById('div-head');
 const divText = document.getElementById('div-text');
 const answerContainer = document.getElementById('answer-container');
 const feedback = document.getElementById('feedback');
+let questionsAsked = [];
 let currentQuestion = 0;
 let correct = 0;
+
 
 const films = [
     {
@@ -52,11 +54,10 @@ const displayQuestion = () => {
     answerContainer.innerHTML = ``;
     currentQuestion++;
     divHead.textContent = `Question ${currentQuestion}`;
-    let idNumber = Math.floor(Math.random() * films.length) + 1;
-    let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
-    let questionObject = generateQuestion(correctFilmIndex);
+    let questionObject = generateQuestion();
     let questionText = questionObject.question;
     divText.textContent = questionText;
+    correctFilmIndex = questionObject.correctFilmIndex;
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     for (let i = 0; i < 4; i++) {
@@ -92,8 +93,10 @@ const displayQuestion = () => {
     }
 }
 
-const generateQuestion = (correctFilmIndex) => {
-    let i = correctFilmIndex;
+const generateQuestion = () => {
+    let i = generateRandomQuestionNumber();
+    questionsAsked.push(films[i].id);
+    console.log(`id of questions already asked: ${questionsAsked}`);
     const questionTypeArray = [
         {
             question : `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
@@ -113,7 +116,23 @@ const generateQuestion = (correctFilmIndex) => {
         }
     ]
     let questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
-    return questionTypeArray[questionTypeIndex];
+    let questionObject = questionTypeArray[questionTypeIndex];
+    questionObject.correctFilmIndex = i;
+    return questionObject;
+}
+
+const generateRandomQuestionNumber = () => {
+    while (true) {
+        let idNumber = Math.floor(Math.random() * films.length) + 1;
+        let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
+        let i = correctFilmIndex;
+        console.log(`random number generated: ${i}`);
+        if (questionsAsked.includes(films[i].id)) {
+            console.log(`The 'questionsAsked' array already has the id '${films[i].id}': ${questionsAsked.includes(films[i].id)}`)
+            continue
+        }
+        else return i
+    }
 }
 
 const generateOptions = (correctFilmIndex, answerType) => {
@@ -153,6 +172,7 @@ const displayResults = () => {
     next.children[0].addEventListener('click', function() {
         correct = 0;
         currentQuestion = 0;
+        questionsAsked = [];
         displayQuestion();
     })
 }
