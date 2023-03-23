@@ -230,14 +230,9 @@ const displayQuestion = () => {
             if (answered === true) {
                 return
             }
-            else if (button.textContent === document.getElementById('q2').textContent) {
-                this.style.backgroundColor = 'green';
-                feedback.textContent = 'Correct!';
-                correct++;
-            }
             else {
-                this.style.backgroundColor = 'red';
-                document.getElementById('feedback').textContent = `Sorry! That is incorrect. The correct answer is ${document.getElementById('q2').textContent}.`;
+                if (this.textContent == films[correctFilmIndex].year) alert('correct')
+                else alert('wrong')
             }
             answered = true;
             next.innerHTML = `<button id='next-button'>Next Question</button>`;
@@ -305,6 +300,10 @@ const yearOptions = correctFilmIndex => {
         }
     }
     return options;
+}
+
+function checkAnswer() {
+
 }
 
 const displayResults = () => {
