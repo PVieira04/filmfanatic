@@ -1,7 +1,6 @@
 const divHead = document.getElementById('div-head');
 const divText = document.getElementById('div-text');
-const topRow = document.getElementById('top-row');
-const botRow = document.getElementById('bot-row');
+const answerContainer = document.getElementById('answer-container');
 const feedback = document.getElementById('feedback');
 let currentQuestion = 0;
 let correct = 0;
@@ -50,6 +49,7 @@ const films = [
 ]
 
 const displayQuestion = () => {
+    answerContainer.innerHTML = ``;
     currentQuestion++;
     divHead.textContent = `Question ${currentQuestion}`;
     let idNumber = Math.floor(Math.random() * films.length) + 1;
@@ -59,8 +59,9 @@ const displayQuestion = () => {
     divText.textContent = questionText;
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
-    topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
-    botRow.innerHTML = `<button id='q3' class='option'>${options[2]}</button><button id='q4' class='option'>${options[3]}</button>`;
+    for (let i = 0; i < 4; i++) {
+        answerContainer.innerHTML += `<button class='option'>${options[i]}</button>`
+    }
     feedback.textContent = '';
     next.innerHTML = '';
     let answered = false;
@@ -146,8 +147,7 @@ const generateOptions = (correctFilmIndex, answerType) => {
 const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
-    topRow.innerHTML = ``;
-    botRow.innerHTML = ``;
+    answerContainer.innerHTML = ``;
     feedback.textContent = '';
     next.innerHTML = `<button>Play Again</button>`;
     next.children[0].addEventListener('click', function() {
