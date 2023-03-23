@@ -214,9 +214,11 @@ const displayQuestion = () => {
     divHead.textContent = `Question ${count}`;
     let idNumber = Math.floor(Math.random() * 5) + 1;
     let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
-    let question = generateQuestion(correctFilmIndex);
-    divText.textContent = question[0]; // position zero contains the text for the question
-    let questionTypeIndex = question[1]; // question[1] gives the type of question used for this question
+    let questionArray = generateQuestion(correctFilmIndex);
+    let questionObject = questionArray[0];
+    let questionText = questionObject.question;
+    divText.textContent = questionText; // position zero contains the text for the question
+    let questionTypeIndex = questionArray[1]; // question[1] gives the type of question used for this question
     let options = generateOptions(correctFilmIndex, questionTypeIndex);
     console.log(options);
     topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
@@ -231,7 +233,7 @@ const displayQuestion = () => {
                 return
             }
             else {
-                if (this.textContent == films[correctFilmIndex].year) alert('correct')
+                if (this.textContent == films[correctFilmIndex][`${questionObject.answerType}`]) alert('correct')
                 else alert('wrong')
             }
             answered = true;
@@ -247,10 +249,22 @@ const generateQuestion = (correctFilmIndex) => {
     let questionTypeIndex = 0; //Math.floor(Math.random() * 4);
     let i = correctFilmIndex;
     const questionTypeArray = [
-        `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
-        `What is the name of the actor who plays ${films[i].mainChar} in "${films[i].title}", released in ${films[i].year}?`,
-        `Who played the principal character in ${films[i].year}'s "${films[i].title}"?`,
-        `Who directed "${films[i].title}", released in ${films[i].year}?`
+        {
+            question : `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
+            answerType : 'year'
+        },
+        {
+            question : `What is the name of the actor who plays ${films[i].mainChar} in "${films[i].title}", released in ${films[i].year}?`,
+            answerType : 'mainActor'
+        },
+        {
+            question : `Who does ${films[i].mainActor} play in ${films[i].year}'s "${films[i].title}"?`,
+            answerType : 'mainChar'
+        },
+        {
+            question : `Who directed "${films[i].title}", released in ${films[i].year}?`,
+            answerType : 'director'
+        }
     ]
     return [questionTypeArray[questionTypeIndex], questionTypeIndex];
 }
