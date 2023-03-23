@@ -214,11 +214,9 @@ const displayQuestion = () => {
     divHead.textContent = `Question ${count}`;
     let idNumber = Math.floor(Math.random() * 5) + 1;
     let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
-    let questionArray = generateQuestion(correctFilmIndex);
-    let questionObject = questionArray[0];
+    let questionObject = generateQuestion(correctFilmIndex);
     let questionText = questionObject.question;
     divText.textContent = questionText; // position zero contains the text for the question
-    let questionTypeIndex = questionArray[1]; // question[1] gives the type of question used for this question
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
@@ -246,7 +244,6 @@ const displayQuestion = () => {
 }
 
 const generateQuestion = (correctFilmIndex) => {
-    let questionTypeIndex = 0; //Math.floor(Math.random() * 4);
     let i = correctFilmIndex;
     const questionTypeArray = [
         {
@@ -266,7 +263,8 @@ const generateQuestion = (correctFilmIndex) => {
             answerType : 'director'
         }
     ]
-    return [questionTypeArray[questionTypeIndex], questionTypeIndex];
+    let questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+    return questionTypeArray[questionTypeIndex];
 }
 
 const generateOptions = (correctFilmIndex, answerType) => {
