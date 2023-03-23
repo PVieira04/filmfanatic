@@ -213,10 +213,11 @@ const displayQuestionFive = () => {
 const displayQuestion = () => {
     divHead.textContent = `Question ${count}`;
     let idNumber = Math.floor(Math.random() * 5) + 1;
-    let i = films.findIndex(((film) => film.id === idNumber));
-    let question = generateQuestion(i);
-    divText.textContent = question[0];
-    let options = generateOptions(i, question[1]);
+    let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
+    let question = generateQuestion(correctFilmIndex);
+    divText.textContent = question[0]; // position zero contains the text for the question
+    let questionTypeIndex = question[1]; // question[1] gives the type of question used for this question
+    let options = generateOptions(correctFilmIndex, questionTypeIndex);
     console.log(options);
     topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
     botRow.innerHTML = `<button id='q3' class='option'>${options[2]}</button><button id='q4' class='option'>${options[3]}</button>`;
@@ -247,16 +248,16 @@ const displayQuestion = () => {
     }
 }
 
-const generateQuestion = (i) => {
-    let qTypeIndex = 0; //Math.floor(Math.random() * 4);
-    
-    const qTypeArray = [
+const generateQuestion = (correctFilmIndex) => {
+    let questionTypeIndex = 0; //Math.floor(Math.random() * 4);
+    let i = correctFilmIndex;
+    const questionTypeArray = [
         `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
         `What is the name of the actor who plays ${films[i].mainChar} in "${films[i].title}", released in ${films[i].year}?`,
         `Who played the principal character in ${films[i].year}'s "${films[i].title}"?`,
         `Who directed "${films[i].title}", released in ${films[i].year}?`
     ]
-    return [qTypeArray[qTypeIndex], qTypeIndex];
+    return [questionTypeArray[questionTypeIndex], questionTypeIndex];
 }
 
 const generateOptions = (i, questionIndex) => {
@@ -303,9 +304,6 @@ const yearOptions = correctFilmIndex => {
             continue
         }
     }
-    
-    
-    
     return options;
 }
 
