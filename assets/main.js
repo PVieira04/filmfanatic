@@ -278,7 +278,7 @@ const generateOptions = (i, questionIndex) => {
     return options
 }
 
-const yearOptions = i => {
+const yearOptions = correctFilmIndex => {
     let options = [];
     // generate a random position for the correct answer
     let correctPosition = Math.floor(Math.random() * 4);
@@ -286,7 +286,7 @@ const yearOptions = i => {
     let loopPosition = 0;
     while (options.length < 4) {
         if (loopPosition === correctPosition) {
-            options.push(films[i].year);
+            options.push(films[correctFilmIndex].year);
             loopPosition++;
             continue
         }
@@ -294,7 +294,7 @@ const yearOptions = i => {
         else {
             let randomFilmIndex = Math.floor(Math.random() * films.length);
             // if it's equal to the correct year, throw it away
-            if (films[randomFilmIndex].year === films[i].year) continue
+            if (films[randomFilmIndex].year === films[correctFilmIndex].year) continue
             // if it already exists in the array, throw it away
             if (options.includes(films[randomFilmIndex].year)) continue
             // otherwise add the year
