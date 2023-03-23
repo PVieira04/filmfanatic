@@ -73,10 +73,12 @@ const displayQuestion = () => {
             else {
                 if (this.textContent == films[correctFilmIndex][`${questionObject.answerType}`]) {
                     this.style.backgroundColor = 'green';
+                    feedback.textContent = 'Correct!';
                     correct++;
                 }
                 else {
                     this.style.backgroundColor = 'red';
+                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${films[correctFilmIndex][`${questionObject.answerType}`]}.`;
                 }
             }
             answered = true;
