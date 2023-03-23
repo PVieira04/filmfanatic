@@ -3,7 +3,7 @@ const divText = document.getElementById('div-text');
 const topRow = document.getElementById('top-row');
 const botRow = document.getElementById('bot-row');
 const feedback = document.getElementById('feedback');
-let count = 0;
+let currentQuestion = 0;
 let correct = 0;
 
 const films = [
@@ -50,12 +50,13 @@ const films = [
 ]
 
 const displayQuestion = () => {
-    divHead.textContent = `Question ${count}`;
-    let idNumber = Math.floor(Math.random() * 5) + 1;
+    currentQuestion++;
+    divHead.textContent = `Question ${currentQuestion}`;
+    let idNumber = Math.floor(Math.random() * films.length) + 1;
     let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
     let questionObject = generateQuestion(correctFilmIndex);
     let questionText = questionObject.question;
-    divText.textContent = questionText; // position zero contains the text for the question
+    divText.textContent = questionText;
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
@@ -70,13 +71,19 @@ const displayQuestion = () => {
                 return
             }
             else {
-                if (this.textContent == films[correctFilmIndex][`${questionObject.answerType}`]) alert('correct')
-                else alert('wrong')
+                if (this.textContent == films[correctFilmIndex][`${questionObject.answerType}`]) {
+                    this.style.backgroundColor = 'green';
+                    correct++;
+                }
+                else {
+                    this.style.backgroundColor = 'red';
+                }
             }
             answered = true;
             next.innerHTML = `<button id='next-button'>Next Question</button>`;
             document.getElementById('next-button').addEventListener('click', function() {
-                displayQuestionTwo();
+                if (currentQuestion < 5) displayQuestion();
+                else displayResults();
             })
         })
     }
@@ -134,10 +141,6 @@ const generateOptions = (correctFilmIndex, answerType) => {
     return options;
 }
 
-function checkAnswer() {
-
-}
-
 const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
@@ -147,16 +150,14 @@ const displayResults = () => {
     next.innerHTML = `<button>Play Again</button>`;
     next.children[0].addEventListener('click', function() {
         correct = 0;
-        count = 1;
-        displayQuestionOne();
+        currentQuestion = 0;
+        displayQuestion();
     })
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
     start.addEventListener('click', () => {
-        count = 1;
         displayQuestion();
     })
 })
