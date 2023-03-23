@@ -1,18 +1,54 @@
 * {
-    background-color: rgb(95, 95, 95);
+    background-color: #a0a0a0;
     box-sizing: border-box;
+}
+
+body {
+    font-size: 100%;
+    text-align: center;
 }
 
 #main {
     max-width: 1000px;
     margin: auto;
+    padding: 0 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
 h1 {
-    color: rgb(183, 183, 255);
+    color: rgb(62, 62, 165);
     margin: auto;
-    text-align: center;
+    font-size: 3em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+p {
+    font-size: 1.5em;
+}
+
+button {
+    font-size: 1.5em;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#answer-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#answer-container button {
+    display: block;
+}
+
+@media only screen and (max-width : 550px) {
+    #answer-container {
+        grid-template-columns: 1fr;
+    }
 }
