@@ -219,7 +219,7 @@ const displayQuestion = () => {
     let questionText = questionObject.question;
     divText.textContent = questionText; // position zero contains the text for the question
     let questionTypeIndex = questionArray[1]; // question[1] gives the type of question used for this question
-    let options = generateOptions(correctFilmIndex, questionTypeIndex);
+    let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     topRow.innerHTML = `<button id='q1' class='option'>${options[0]}</button><button id='q2' class='option'>${options[1]}</button>`;
     botRow.innerHTML = `<button id='q3' class='option'>${options[2]}</button><button id='q4' class='option'>${options[3]}</button>`;
@@ -269,26 +269,7 @@ const generateQuestion = (correctFilmIndex) => {
     return [questionTypeArray[questionTypeIndex], questionTypeIndex];
 }
 
-const generateOptions = (i, questionIndex) => {
-    let options = [];
-    switch(questionIndex) {
-        case 0:
-            options = yearOptions(i);
-            break;
-        case 1:
-
-            break;
-        case 2:
-
-            break;
-        case 3:
-
-            break;
-    }
-    return options
-}
-
-const yearOptions = correctFilmIndex => {
+const generateOptions = (correctFilmIndex, answerType) => {
     let options = [];
     // generate a random position for the correct answer
     let correctPosition = Math.floor(Math.random() * 4);
@@ -296,19 +277,19 @@ const yearOptions = correctFilmIndex => {
     let loopPosition = 0;
     while (options.length < 4) {
         if (loopPosition === correctPosition) {
-            options.push(films[correctFilmIndex].year);
+            options.push(films[correctFilmIndex][`${answerType}`]);
             loopPosition++;
             continue
         }
-        // if loop position is not euqual to correct answer position, find a random year that exists inside the films object
+        // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
         else {
             let randomFilmIndex = Math.floor(Math.random() * films.length);
-            // if it's equal to the correct year, throw it away
-            if (films[randomFilmIndex].year === films[correctFilmIndex].year) continue
+            // if it's equal to the correct answer, throw it away
+            if (films[randomFilmIndex][`${answerType}`] === films[correctFilmIndex][`${answerType}`]) continue
             // if it already exists in the array, throw it away
-            if (options.includes(films[randomFilmIndex].year)) continue
-            // otherwise add the year
-            options.push(films[randomFilmIndex].year);
+            if (options.includes(films[randomFilmIndex][`${answerType}`])) continue
+            // otherwise add the answer
+            options.push(films[randomFilmIndex][`${answerType}`]);
             loopPosition++;
             continue
         }
