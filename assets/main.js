@@ -60,13 +60,13 @@ const films = [
  * This function takes in no properties and does not return anything. 
  * It is a state the page stays in until the user interacts with it.
  */
-const displayQuestion = () => {
+const displayQuestion = async () => {
     // increment the current question by one.
     currentQuestion++;
     // display the question number on the page.
     divHead.textContent = `Question ${currentQuestion}`;
     // call generateQuestion and save the returned object to a variable.
-    let questionObject = generateQuestion();
+    let questionObject = await generateQuestion();
     // for better readability, extract the question which will be displayed into a variable.
     let questionText = questionObject.question;
     // display the question on the screen.
@@ -132,9 +132,20 @@ const displayQuestion = () => {
 
 /**
  * The purpose of this function is to fetch data from an API endpoint and return the
+ * whole films array.
+ * @returns array of film data.
+ */
+const fetchFilmsArray = async () => {
+    const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
+    const data = await response.json();
+    return data;
+}
+
+/**
+ * The purpose of this function is to fetch data from an API endpoint and return the
  * film object using correctFilmIndex.
  * @param {number} correctFilmIndex Index of correct film.
- * @returns 
+ * @returns object of one film's data.
  */
 const fetchFilmObject = async correctFilmIndex => {
     const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
@@ -151,11 +162,12 @@ const fetchFilmObject = async correctFilmIndex => {
  * "correctFilmIndex" is needed for answer checking later on.
  * @returns {Object}    This is an object with three properties
  */
-const generateQuestion = () => {
+const generateQuestion = async () => {
     // call generateRandomQuestionNumber and save it to "i". It is the index used for the current question.
     let i = generateRandomQuestionNumber();
     // push the film's [id] property to the global variable questionsAsked.
-    questionsAsked.push(films[i].id);
+    fetchFilmObject(i).then(film => questionsAsked.push(film.id))
+    //questionsAsked.push(films[i].id);
     console.log(`id of questions already asked: [${questionsAsked}]`);
     // this is the array containing all the question objects - this can be added to.
     const questionTypeArray = [
