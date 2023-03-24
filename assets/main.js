@@ -76,7 +76,7 @@ const displayQuestion = async () => {
                 button.classList.remove('hover');
             }
             // display button to naviagte to next qeustion.
-            next.innerHTML = `<button id='next-button' class='hover'>Next Question</button>`;
+            next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
             // add event listener to new button.
             document.getElementById('next-button').addEventListener('click', function() {
                 // empty elements ready for next question or results page.
@@ -266,6 +266,11 @@ const displayResults = () => {
         // call question one.
         displayQuestion();
     })
+}
+
+const nextText = questionNumber => {
+    if (questionNumber < 5) return "Next Question"
+    else return "Show Results"
 }
 
 /**
