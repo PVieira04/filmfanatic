@@ -269,6 +269,31 @@ const displayResults = () => {
 }
 
 /**
+ * Thinking about a local storage function...
+ * I could use the storage function to load the last question the user was on
+ * as well as save the user's score from the previous session.
+ * For example... If the user got question 1 and 2 correct but messed up
+ * on question 3 and closed the tab...
+ * I want the local storage function to kick in as soon as they reopen the window.
+ * The first thing that JS does on reloading is to check whether someone is in the
+ * middle of a game - boolean.
+ * The local storage can be called everytime a question is asked... perhaps
+ * with the properties currentQuestion, currentOptions, correctFilmIndex.
+ * Once a user answers a question, another property called answered can be
+ * written as true and if the user got the question correct, correctAnswers
+ * can be incremented. The object could possibly look like this:
+ * localStorage = {
+ *      startedSession : true,
+ *      currentQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
+ *      currentOptions : [1998, 1977, 2021, 1997],
+ *      correctFilmIndex : 4,
+ *      answered : true,
+ *      selectedOptionIndex : 1,
+ *      feedbackMessage : 'Sorry! That is incorrect. The correct answer is 1997.'
+ * }
+ */
+
+/**
  * Once the DOM content has loaded, I want to apply an event listener
  * to the button which, when clicked, displays question 1.
  */
