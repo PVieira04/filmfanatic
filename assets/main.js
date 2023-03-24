@@ -66,7 +66,7 @@ const displayQuestion = async () => {
                     // turn background of button red.
                     this.style.backgroundColor = '#E17575';
                     // tell the user they did not get the answer correct - also tell user correct answer.
-                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${films[correctFilmIndex][`${questionObject.answerType}`]}.`;
+                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${questionObject.answerType}`]}.`;
                 }
             }
             // once feedback is given, change answered to "true".
