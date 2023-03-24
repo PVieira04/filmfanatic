@@ -131,6 +131,18 @@ const displayQuestion = () => {
 }
 
 /**
+ * The purpose of this function is to fetch data from an API endpoint and return the
+ * film object using correctFilmIndex.
+ * @param {number} correctFilmIndex Index of correct film.
+ * @returns 
+ */
+const fetchFilmObject = async correctFilmIndex => {
+    const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
+    const data = await response.json();
+    return data[correctFilmIndex];
+}
+
+/**
  * This function's primary role is to generate the question which will be displayed on the screen.
  * This function takes no parameters and returns an object with three properties.
  * The first one is "question" which contains the actual question to be displayed on the screen.
@@ -264,9 +276,14 @@ const displayResults = () => {
  * Once the DOM content has loaded, I want to apply an event listener
  * to the button which, when clicked, displays question 1.
  */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     let start = document.getElementById('start-game');
     console.log(films);
+    const q = await fetchFilmObject(1).then(object => {
+        console.log(object);
+        return object
+    });
+    console.log(q);
     // add event listener to start button.
     start.addEventListener('click', () => {
         next.innerHTML = '';
