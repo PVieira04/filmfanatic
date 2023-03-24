@@ -17,20 +17,31 @@ let correct = 0;
  * It is a state the page stays in until the user interacts with it.
  */
 const displayQuestion = async () => {
+    // initialise variables
+    let questionText = '';
+    let options = [];
+    // load the question number from local storage if user has visited before.
+    if (localStorage.startedQuiz) {
+        currentQuestion = localStorage.savedQuestionNumber;
+        questionText = localStorage.savedQuestion;
+        options = localStorage.savedOptions;
+    }
+    else {
+        // call generateQuestion and save the returned object to a variable.
+        const questionObject = await generateQuestion();
+        // extract the question which will be displayed into a variable.
+        questionText = questionObject.question;
+        // extract the index of the correct film - save to a variable.
+        correctFilmIndex = questionObject.correctFilmIndex;
+        // call generateOptions and save to options variable - this is an array containing four elements.
+        options = await generateOptions(correctFilmIndex, questionObject.answerType);
+        // save values to localStorage - TODO
+    }
     // display the question number on the page.
     divHead.textContent = `Question ${currentQuestion}`;
-    // call generateQuestion and save the returned object to a variable.
-    const questionObject = await generateQuestion();
-    // for better readability, extract the question which will be displayed into a variable.
-    const questionText = questionObject.question;
     // display the question on the screen.
     divText.textContent = questionText;
-    // for better readability, extract the index of the correct film - save ot a variable.
-    correctFilmIndex = questionObject.correctFilmIndex;
     console.log(`This should be an integer: ${correctFilmIndex}`)
-    // call generateOptions and save to options variable - this is an array containing four elements.
-    const options = await generateOptions(correctFilmIndex, questionObject.answerType);
-    console.log(options);
     // create four buttons which each contain one element from the options array.
     for (let i = 0; i < 4; i++) {
         answerContainer.innerHTML += `<button class='option hover'>${options[i]}</button>`
@@ -290,10 +301,10 @@ const nextText = questionNumber => {
  * written as true and if the user got the question correct, correctAnswers
  * can be incremented. The object could possibly look like this:
  * localStorage = {
- *      startedSession : true,
- *      questionNumber : 3,
- *      currentQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
- *      currentOptions : [1998, 1977, 2021, 1997],
+ *      startedQuiz : true,
+ *      savedQuestionNumber : 3,
+ *      savedQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
+ *      savedOptions : [1998, 1977, 2021, 1997],
  *      correctFilmIndex : 4,
  *      answered : true,
  *      selectedOption : 1977,
