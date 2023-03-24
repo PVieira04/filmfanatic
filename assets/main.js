@@ -3,7 +3,7 @@ const divText = document.getElementById('div-text');
 const answerContainer = document.getElementById('answer-container');
 const feedback = document.getElementById('feedback');
 let questionsAsked = [];
-let currentQuestion = 0;
+let currentQuestion = 1;
 let correct = 0;
 
 /**
@@ -17,8 +17,6 @@ let correct = 0;
  * It is a state the page stays in until the user interacts with it.
  */
 const displayQuestion = async () => {
-    // increment the current question by one.
-    currentQuestion++;
     // display the question number on the page.
     divHead.textContent = `Question ${currentQuestion}`;
     // call generateQuestion and save the returned object to a variable.
@@ -84,7 +82,11 @@ const displayQuestion = async () => {
                 feedback.textContent = '';
                 next.innerHTML = '';
                 // check if fifth question has been reached. If not, call the displayQuestion function again.
-                if (currentQuestion < 5) displayQuestion();
+                if (currentQuestion < 5) {
+                    // increment the current question by one.
+                    currentQuestion++;
+                    displayQuestion();
+                }
                 // If so, display results.
                 else displayResults();
             })
@@ -260,7 +262,7 @@ const displayResults = () => {
     next.children[0].addEventListener('click', function() {
         // initialise required variables.
         correct = 0;
-        currentQuestion = 0;
+        currentQuestion = 1;
         questionsAsked = [];
         next.innerHTML = '';
         // call question one.
