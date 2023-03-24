@@ -20,11 +20,13 @@ const displayQuestion = async () => {
     // initialise variables
     let questionText = '';
     let options = [];
+    let optionType = '';
     // load the question number from local storage if user has visited before.
     if (localStorage.startedQuiz) {
         currentQuestion = localStorage.savedQuestionNumber;
         questionText = localStorage.savedQuestion;
         options = localStorage.savedOptions;
+        optionType = localStorage.answerType;
     }
     else {
         // call generateQuestion and save the returned object to a variable.
@@ -33,6 +35,8 @@ const displayQuestion = async () => {
         questionText = questionObject.question;
         // extract the index of the correct film - save to a variable.
         correctFilmIndex = questionObject.correctFilmIndex;
+        // extract the answerType property into a variable
+        optionType = questionObject.answerType
         // call generateOptions and save to options variable - this is an array containing four elements.
         options = await generateOptions(correctFilmIndex, questionObject.answerType);
         // save values to localStorage - TODO
@@ -41,7 +45,6 @@ const displayQuestion = async () => {
     divHead.textContent = `Question ${currentQuestion}`;
     // display the question on the screen.
     divText.textContent = questionText;
-    console.log(`This should be an integer: ${correctFilmIndex}`)
     // create four buttons which each contain one element from the options array.
     for (let i = 0; i < 4; i++) {
         answerContainer.innerHTML += `<button class='option hover'>${options[i]}</button>`
@@ -63,7 +66,7 @@ const displayQuestion = async () => {
                     return object
                 });
                 // check if the text inside the element which was clicked is the same as the correct answer.
-                if (this.textContent == correctFilm[`${questionObject.answerType}`]) {
+                if (this.textContent == correctFilm[`${optionType}`]) {
                     // turn background of button green.
                     this.style.backgroundColor = '#50A93C';
                     // tell the user they got the answer correct.
@@ -75,7 +78,7 @@ const displayQuestion = async () => {
                     // turn background of button red.
                     this.style.backgroundColor = '#E17575';
                     // tell the user they did not get the answer correct - also tell user correct answer.
-                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${questionObject.answerType}`]}.`;
+                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
                 }
             }
             // once feedback is given, change answered to "true".
