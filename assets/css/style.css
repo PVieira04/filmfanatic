@@ -35,10 +35,21 @@ p {
 }
 
 button {
+    all: unset;
     font-size: 1.5em;
-    margin: 5px;
-    padding: 10px;
+    margin: 10px;
+    padding: 15px;
+    border: black solid 2px;
     border-radius: 5px;
+    transition: background-color 0.5s ease;
+}
+
+.option:hover, #start-game:hover {
+    background-color: aquamarine;
+}
+
+button:focus-visible {
+    border: red dashed 2px;
 }
 
 #answer-container {
