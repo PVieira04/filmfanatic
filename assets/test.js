@@ -49,7 +49,7 @@ const films = [
     }
 ]
 
-const displayQuestion = () => {
+const displayQuestion = async () => {
     answerContainer.innerHTML = ``;
     currentQuestion++;
     divHead.textContent = `Question ${currentQuestion}`;
@@ -57,7 +57,6 @@ const displayQuestion = () => {
     let questionText = questionObject.question;
     divText.textContent = questionText;
     correctFilmIndex = questionObject.correctFilmIndex;
-    console.log(`This should be an integer: ${correctFilmIndex}`)
     let options = generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     for (let i = 0; i < 4; i++) {
@@ -68,13 +67,14 @@ const displayQuestion = () => {
     let answered = false;
     let buttons = document.getElementsByClassName('option');
     for (let button of buttons) {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', function highlightSelection() {
             if (answered === true) {
                 return
             }
             else {
-                console.log(correctFilmIndex);
-                let correctFilm = films[correctFilmIndex];
+                console.log(correctFilmIndex);2
+                let correctFilm = fetchFilmObject(correctFilmIndex);
+                console.log(`answer check: ${correctFilm}`)
                 if (this.textContent == correctFilm[`${questionObject.answerType}`]) {
                     this.style.backgroundColor = '#50A93C'; // green color2
                     feedback.textContent = 'Correct!';
@@ -82,7 +82,7 @@ const displayQuestion = () => {
                 }
                 else {
                     this.style.backgroundColor = '#E17575'; // light red color
-                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${films[correctFilmIndex][`${questionObject.answerType}`]}.`;
+                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${fetchFilmObject(correctFilmIndex)[`${questionObject.answerType}`]}.`;
                 }
             }
             answered = true;
@@ -95,10 +95,20 @@ const displayQuestion = () => {
     }
 }
 
-const generateQuestion = () => {
+const fetchFilmObject = async correctFilmIndex => {
+    const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
+    const data = await response.json();
+    return data[correctFilmIndex];
+}
+
+const generateQuestion = async () => {
     let i = generateRandomQuestionNumber();
-    questionsAsked.push(films[i].id);
-    console.log(`id of questions already asked: [${questionsAsked}]`);
+    fetchFilmObject(i).then(object => console.log(`This is the returned object when called from generateQuestion: ${JSON.stringify(object)}`));
+    fetchFilmObject(i).then(object => console.log(`This is the returned object's film name: ${object.title}`));
+    const q = await fetchFilmObject(i);
+    console.log(q);
+    questionsAsked.push(fetchFilmObject(i).id);
+    console.log(`id of questions already asked: ${questionsAsked}`);
     const questionTypeArray = [
         {
             question : `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
@@ -124,7 +134,7 @@ const generateQuestion = () => {
 }
 
 // This function randomly selects a film to be the subject of a question. It also checks whether that film has been selected before and keeps generating new films until it selects a film which has 
-const generateRandomQuestionNumber = () => {
+const generateRandomQuestionNumber = async () => {
     while (true) {
         let idNumber = Math.floor(Math.random() * films.length) + 1;
         let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
@@ -138,7 +148,7 @@ const generateRandomQuestionNumber = () => {
     }
 }
 
-const generateOptions = (correctFilmIndex, answerType) => {
+const generateOptions = async (correctFilmIndex, answerType) => {
     let options = [];
     // generate a random position for the correct answer
     let correctPosition = Math.floor(Math.random() * 4);
@@ -182,7 +192,7 @@ const displayResults = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
-    console.log(films);
+    console.log(JSON.stringify(films));
     start.addEventListener('click', () => {
         displayQuestion();
     })
