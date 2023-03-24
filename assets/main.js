@@ -6,50 +6,6 @@ let questionsAsked = [];
 let currentQuestion = 0;
 let correct = 0;
 
-// This is the films array. Each element is an object containing film information.
-const films = [
-    {
-        id : 1,
-        title : 'Reservoir Dogs',
-        year : 1992,
-        mainChar : 'Mr. White',
-        mainActor : 'Hervery Keitel',
-        director : 'Quentin Tarantino'
-    },
-    {
-        id : 2,
-        title : 'No Time to Die',
-        year : 2021,
-        mainChar : 'James Bond',
-        mainActor : 'Daniel Craig',
-        director : 'Cary Joji Fukunaga'
-    },
-    {
-        id : 3,
-        title : 'A New Hope',
-        year : 1977,
-        mainChar : 'Luke Skywalker',
-        mainActor : 'Mark Hamill',
-        director : 'George Lucas'
-    },
-    {
-        id : 4,
-        title : 'Doctor Dolittle',
-        year : 1998,
-        mainChar : 'Dr, John Dolittle',
-        mainActor : 'Eddie Murphy',
-        director : 'Betty Thomas'
-    },
-    {
-        id : 5,
-        title : 'Titanic',
-        year : 1997,
-        mainChar : 'Jack Dawson',
-        mainActor : 'Leonardo DiCaprio',
-        director : 'James Cameron'
-    }
-]
-
 /**
  * This function displays the question and four options for the user 
  * to choose.
@@ -75,7 +31,7 @@ const displayQuestion = async () => {
     correctFilmIndex = questionObject.correctFilmIndex;
     console.log(`This should be an integer: ${correctFilmIndex}`)
     // call generateOptions and save to options variable - this is an array containing four elements.
-    let options = generateOptions(correctFilmIndex, questionObject.answerType);
+    let options = await generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     // create four buttons which each contain one element from the options array.
     for (let i = 0; i < 4; i++) {
@@ -87,14 +43,16 @@ const displayQuestion = async () => {
     let buttons = document.getElementsByClassName('option');
     // cycle through the array and add event listeners.
     for (let button of buttons) {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', async function () {
             // if user has answered question already, don't do anything when user clicks again.
             if (answered === true) {
                 return
             }
             else {
                 console.log(correctFilmIndex);
-                let correctFilm = films[correctFilmIndex];
+                let correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
+                    return object
+                });
                 // check if the text inside the element which was clicked is the same as the correct answer.
                 if (this.textContent == correctFilm[`${questionObject.answerType}`]) {
                     // turn background of button green.
@@ -234,32 +192,36 @@ const generateRandomQuestionNumber = async () => {
  * @param {string} answerType Corresponds to the property key that this function wants to use to generate options.
  * @returns an array of four elements which will be the four options displayed to the user.
  */
-const generateOptions = (correctFilmIndex, answerType) => {
+const generateOptions = async (correctFilmIndex, answerType) => {
     // declare empty array - used to push options into.
-    let options = [];
-    // generate a random position for the correct answer
-    let correctPosition = Math.floor(Math.random() * 4);
-    // begin loop. If loop position is equal to position for correct answer, push correct answer
-    let loopPosition = 0;
-    while (options.length < 4) {
-        if (loopPosition === correctPosition) {
-            options.push(films[correctFilmIndex][`${answerType}`]);
-            loopPosition++;
-            continue
+    const options = await fetchFilmsArray().then(array => {
+        let answerOptions = [];
+        // generate a random position for the correct answer
+        let correctPosition = Math.floor(Math.random() * 4);
+        // begin loop. If loop position is equal to position for correct answer, push correct answer
+        let loopPosition = 0;
+        while (answerOptions.length < 4) {
+            if (loopPosition === correctPosition) {
+                answerOptions.push(array[correctFilmIndex][`${answerType}`]);
+                loopPosition++;
+                continue
+            }
+            // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
+            else {
+                let randomFilmIndex = Math.floor(Math.random() * array.length);
+                // if it's equal to the correct answer, throw it away
+                if (array[randomFilmIndex][`${answerType}`] === array[correctFilmIndex][`${answerType}`]) continue
+                // if it already exists in the array, throw it away
+                if (answerOptions.includes(array[randomFilmIndex][`${answerType}`])) continue
+                // otherwise add the answer
+                answerOptions.push(array[randomFilmIndex][`${answerType}`]);
+                loopPosition++;
+                continue
+            }
         }
-        // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
-        else {
-            let randomFilmIndex = Math.floor(Math.random() * films.length);
-            // if it's equal to the correct answer, throw it away
-            if (films[randomFilmIndex][`${answerType}`] === films[correctFilmIndex][`${answerType}`]) continue
-            // if it already exists in the array, throw it away
-            if (options.includes(films[randomFilmIndex][`${answerType}`])) continue
-            // otherwise add the answer
-            options.push(films[randomFilmIndex][`${answerType}`]);
-            loopPosition++;
-            continue
-        }
-    }
+        return answerOptions
+    });
+    
     return options;
 }
 
@@ -291,7 +253,6 @@ const displayResults = () => {
  */
 document.addEventListener('DOMContentLoaded', async () => {
     let start = document.getElementById('start-game');
-    console.log(films);
     const q = await fetchFilmObject(1).then(object => {
         console.log(object);
         return object
