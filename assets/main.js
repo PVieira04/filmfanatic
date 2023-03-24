@@ -41,7 +41,12 @@ const displayQuestion = async () => {
         optionType = questionObject.answerType
         // call generateOptions and save to options variable - this is an array containing four elements.
         options = await generateOptions(correctFilmIndex, questionObject.answerType);
-        // save values to localStorage - TODO
+        // save values to localStorage
+        localStorage.correctFilmIndex = correctFilmIndex;
+        localStorage.savedQuestionNumber = currentQuestion;
+        localStorage.savedQuestion = questionText;
+        localStorage.savedOptions = options;
+        localStorage.answerType = questionObject.answerType;
     }
     // display the question number on the page.
     divHead.textContent = `Question ${currentQuestion}`;
@@ -71,6 +76,11 @@ const displayQuestion = async () => {
             else {
                 // change answered to "true".
                 answered = true;
+                // assign selected option index to local storage
+                localStorage.selectedOption = this.textContent;
+                localStorage.selectedOptionIndex = options.findIndex((option) => {
+                    if (localStorage.selectedOption === option) return option
+                });
                 // delete hover class from buttons
                 for (let button of buttons) {
                     button.classList.remove('hover');
@@ -171,7 +181,7 @@ const generateQuestion = async () => {
     const questionObject = await fetchFilmObject(i).then(film => {
         // push the film's [id] property to the global variable questionsAsked.
         questionsAsked.push(film.id);
-        localStorage.filmsAlreadyUsed = questionsAsked;
+        localStorage.filmsAlreadyUsed = [questionsAsked];
         // this is the array containing all the question objects - this can be added to.
         const questionTypeArray = [
             {
@@ -314,12 +324,13 @@ const nextText = questionNumber => {
  * can be incremented. The object could possibly look like this:
  * localStorage = {
  *      startedQuiz : true,
- *      filmsAlreadyChosen : [2,3,5],
+ *      filmsAlreadyUsed : [2,3,5],
  *      correctlyAnswered : 2,
  *      savedQuestionNumber : 3,
  *      savedQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
  *      savedOptions : [1998, 1977, 2021, 1997],
  *      correctFilmIndex : 4,
+ *      answerType : 'year'
  *      answered : true,
  *      selectedOptionIndex : 1,
  *      highlight : '#E17575'
@@ -347,6 +358,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     start.addEventListener('click', () => {
         next.innerHTML = '';
         // when clicked, go to question one.
+        localStorage.clear();
         displayQuestion();
     })
 })
