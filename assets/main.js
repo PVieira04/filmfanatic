@@ -35,7 +35,7 @@ const displayQuestion = async () => {
     console.log(options);
     // create four buttons which each contain one element from the options array.
     for (let i = 0; i < 4; i++) {
-        answerContainer.innerHTML += `<button class='option'>${options[i]}</button>`
+        answerContainer.innerHTML += `<button class='option hover'>${options[i]}</button>`
     }
     // declare variable which determines whether user has answered question or not.
     let answered = false;
@@ -71,8 +71,12 @@ const displayQuestion = async () => {
             }
             // once feedback is given, change answered to "true".
             answered = true;
+            // delete hover class from buttons
+            for (let button of buttons) {
+                button.classList.remove('hover');
+            }
             // display button to naviagte to next qeustion.
-            next.innerHTML = `<button id='next-button'>Next Question</button>`;
+            next.innerHTML = `<button id='next-button' class='hover'>Next Question</button>`;
             // add event listener to new button.
             document.getElementById('next-button').addEventListener('click', function() {
                 // empty elements ready for next question or results page.
@@ -235,7 +239,7 @@ const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
     // create button that allows the user to play again.
-    next.innerHTML = `<button>Play Again</button>`;
+    next.innerHTML = `<button class='hover'>Play Again</button>`;
     // add event listener to button.
     next.children[0].addEventListener('click', function() {
         // initialise required variables.
