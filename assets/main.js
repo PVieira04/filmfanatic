@@ -22,16 +22,16 @@ const displayQuestion = async () => {
     // display the question number on the page.
     divHead.textContent = `Question ${currentQuestion}`;
     // call generateQuestion and save the returned object to a variable.
-    let questionObject = await generateQuestion();
+    const questionObject = await generateQuestion();
     // for better readability, extract the question which will be displayed into a variable.
-    let questionText = questionObject.question;
+    const questionText = questionObject.question;
     // display the question on the screen.
     divText.textContent = questionText;
     // for better readability, extract the index of the correct film - save ot a variable.
     correctFilmIndex = questionObject.correctFilmIndex;
     console.log(`This should be an integer: ${correctFilmIndex}`)
     // call generateOptions and save to options variable - this is an array containing four elements.
-    let options = await generateOptions(correctFilmIndex, questionObject.answerType);
+    const options = await generateOptions(correctFilmIndex, questionObject.answerType);
     console.log(options);
     // create four buttons which each contain one element from the options array.
     for (let i = 0; i < 4; i++) {
@@ -40,7 +40,7 @@ const displayQuestion = async () => {
     // declare variable which determines whether user has answered question or not.
     let answered = false;
     // save the four buttons in a variable as an array.
-    let buttons = document.getElementsByClassName('option');
+    const buttons = document.getElementsByClassName('option');
     // cycle through the array and add event listeners.
     for (let button of buttons) {
         button.addEventListener('click', async function () {
@@ -50,7 +50,7 @@ const displayQuestion = async () => {
             }
             else {
                 console.log(correctFilmIndex);
-                let correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
+                const correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
                     return object
                 });
                 // check if the text inside the element which was clicked is the same as the correct answer.
@@ -124,7 +124,7 @@ const generateQuestion = async () => {
     // call generateRandomQuestionNumber and save it to "i". It is the index used for the current question.
     const i = await generateRandomQuestionNumber();
     // use this integer to select a question type - save to a variable;
-    let questionObject = await fetchFilmObject(i).then(film => {
+    const questionObject = await fetchFilmObject(i).then(film => {
         // push the film's [id] property to the global variable questionsAsked.
         questionsAsked.push(film.id);
         // this is the array containing all the question objects - this can be added to.
@@ -147,7 +147,7 @@ const generateQuestion = async () => {
             }
         ]
         // generate a random integer between 0 and the length of the array(not inclusive);
-        let questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+        const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
         return questionTypeArray[questionTypeIndex];
     });
     // add a property to the questionObject containing the index of the film which is used as the subject of the question.
@@ -169,11 +169,11 @@ const generateRandomQuestionNumber = async () => {
         console.log(array);
         console.log(array.length);
         while (true) {
-            let idNumber = Math.floor(Math.random() * array.length) + 1;
+            const idNumber = Math.floor(Math.random() * array.length) + 1;
             console.log(idNumber);
-            let correctFilmIndex = array.findIndex(((film) => film.id === idNumber));
+            const correctFilmIndex = array.findIndex(((film) => film.id === idNumber));
             console.log(correctFilmIndex);
-            let i = correctFilmIndex;
+            const i = correctFilmIndex;
             console.log(i);
             if (questionsAsked.includes(array[i].id)) {
                 console.log(`The 'questionsAsked' array already has the id '${array[i].id}': ${questionsAsked.includes(array[i].id)}`)
@@ -197,7 +197,7 @@ const generateOptions = async (correctFilmIndex, answerType) => {
     const options = await fetchFilmsArray().then(array => {
         let answerOptions = [];
         // generate a random position for the correct answer
-        let correctPosition = Math.floor(Math.random() * 4);
+        const correctPosition = Math.floor(Math.random() * 4);
         // begin loop. If loop position is equal to position for correct answer, push correct answer
         let loopPosition = 0;
         while (answerOptions.length < 4) {
@@ -208,7 +208,7 @@ const generateOptions = async (correctFilmIndex, answerType) => {
             }
             // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
             else {
-                let randomFilmIndex = Math.floor(Math.random() * array.length);
+                const randomFilmIndex = Math.floor(Math.random() * array.length);
                 // if it's equal to the correct answer, throw it away
                 if (array[randomFilmIndex][`${answerType}`] === array[correctFilmIndex][`${answerType}`]) continue
                 // if it already exists in the array, throw it away
@@ -254,11 +254,6 @@ const displayResults = () => {
  */
 document.addEventListener('DOMContentLoaded', async () => {
     let start = document.getElementById('start-game');
-    const q = await fetchFilmObject(1).then(object => {
-        console.log(object);
-        return object
-    });
-    console.log(q);
     // add event listener to start button.
     start.addEventListener('click', () => {
         next.innerHTML = '';
