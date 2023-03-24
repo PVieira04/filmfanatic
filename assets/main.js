@@ -98,9 +98,17 @@ const displayQuestion = async () => {
  * @returns array of film data.
  */
 const fetchFilmsArray = async () => {
-    const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
+        const data = await response.json();
+        return data;
+    }
+    catch(err) {
+        console.log(err);
+        const response = await fetch('./films.json');
+        const data = await response.json();
+        return data;
+    }
 }
 
 /**
@@ -110,9 +118,17 @@ const fetchFilmsArray = async () => {
  * @returns object of one film's data.
  */
 const fetchFilmObject = async correctFilmIndex => {
-    const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
-    const data = await response.json();
-    return data[correctFilmIndex];
+    try {
+        const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
+        const data = await response.json();
+        return data[correctFilmIndex];
+    }
+    catch(err) {
+        console.log(err);
+        const response = await fetch('./films.json');
+        const data = await response.json();
+        return data[correctFilmIndex];
+    }
 }
 
 /**
