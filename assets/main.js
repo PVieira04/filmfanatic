@@ -289,14 +289,37 @@ const nextText = questionNumber => {
  * can be incremented. The object could possibly look like this:
  * localStorage = {
  *      startedSession : true,
+ *      questionNumber : 3,
  *      currentQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
  *      currentOptions : [1998, 1977, 2021, 1997],
  *      correctFilmIndex : 4,
  *      answered : true,
- *      selectedOptionIndex : 1,
+ *      selectedOption : 1977,
  *      feedbackMessage : 'Sorry! That is incorrect. The correct answer is 1997.'
  * }
  */
+const loadSavedState = () => {
+    divHead.textContent = `Question ${localStorage.questionNumber}`;
+    divText.textContent = localStorage.currentQuestion;
+    for (let i = 0; i < 4; i++) {
+        answerContainer.innerHTML += `<button class='option hover'>${currentOptions[i]}</button>`
+    }
+    if (localStorage.answered) {
+        // highlight the button
+        for (button of buttons) {
+            if (this.textContent == localStorage.selectedOption) {
+                if (localStorage.feedbackMessage == 'Correct!') {
+                    this.style.backgroundColor = '#50A93C';
+                }
+                else this.style.backgroundColor = '#E17575';
+            }
+        }
+        // display feedback text
+        feedback.textContent = localStorage.feedbackMessage;
+        // display next button
+        next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
+    }
+}
 
 /**
  * Once the DOM content has loaded, I want to apply an event listener
@@ -304,6 +327,11 @@ const nextText = questionNumber => {
  */
 document.addEventListener('DOMContentLoaded', async () => {
     let start = document.getElementById('start-game');
+    // check localStorage.startedSession
+    // if true, add another button to resume session.
+    // add event listener to both butttons.
+    // if resume session is selected: localStorage.resume = true
+    // if start game is selected, run the localStorage reset function (upcoming feature)
     // add event listener to start button.
     start.addEventListener('click', () => {
         next.innerHTML = '';
