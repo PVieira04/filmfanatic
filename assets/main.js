@@ -61,8 +61,6 @@ const films = [
  * It is a state the page stays in until the user interacts with it.
  */
 const displayQuestion = () => {
-    // first I want to empty the answer container - applicable to questions 2-5.
-    answerContainer.innerHTML = ``;
     // increment the current question by one.
     currentQuestion++;
     // display the question number on the page.
@@ -83,10 +81,6 @@ const displayQuestion = () => {
     for (let i = 0; i < 4; i++) {
         answerContainer.innerHTML += `<button class='option'>${options[i]}</button>`
     }
-    // empty the feedback.
-    feedback.textContent = '';
-    // empty the next question button.
-    next.innerHTML = '';
     // declare variable which determines whether user has answered question or not.
     let answered = false;
     // save the four buttons in a variable as an array.
@@ -111,7 +105,7 @@ const displayQuestion = () => {
                     correct++;
                 }
                 else {
-                    // turn background of button red
+                    // turn background of button red.
                     this.style.backgroundColor = '#E17575';
                     // tell the user they did not get the answer correct - also tell user correct answer.
                     feedback.textContent = `Sorry! That is incorrect. The correct answer is ${films[correctFilmIndex][`${questionObject.answerType}`]}.`;
@@ -119,10 +113,14 @@ const displayQuestion = () => {
             }
             // once feedback is given, change answered to "true".
             answered = true;
-            // display button to naviagte to next qeustion;
+            // display button to naviagte to next qeustion.
             next.innerHTML = `<button id='next-button'>Next Question</button>`;
-            // add event listener to new button
+            // add event listener to new button.
             document.getElementById('next-button').addEventListener('click', function() {
+                // empty elements ready for next question or results page.
+                answerContainer.innerHTML = ``;
+                feedback.textContent = '';
+                next.innerHTML = '';
                 // check if fifth question has been reached. If not, call the displayQuestion function again.
                 if (currentQuestion < 5) displayQuestion();
                 // If so, display results.
@@ -249,8 +247,6 @@ const displayResults = () => {
     // display results
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
-    answerContainer.innerHTML = ``;
-    feedback.textContent = '';
     // create button that allows the user to play again.
     next.innerHTML = `<button>Play Again</button>`;
     // add event listener to button.
@@ -273,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(films);
     // add event listener to start button.
     start.addEventListener('click', () => {
+        next.innerHTML = '';
         // when clicked, go to question one.
         displayQuestion();
     })
