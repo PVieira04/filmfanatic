@@ -5,7 +5,7 @@ const feedback = document.getElementById('feedback');
 let questionsAsked = [];
 let currentQuestion = 0;
 let correct = 0;
-
+let q;
 
 const films = [
     {
@@ -73,14 +73,17 @@ const displayQuestion = () => {
                 return
             }
             else {
-                if (this.textContent == films[correctFilmIndex][`${questionObject.answerType}`]) {
+                console.log(correctFilmIndex);2
+                let correctFilm = fetchFilmObject(correctFilmIndex);
+                console.log(`answer check: ${correctFilm}`)
+                if (this.textContent == correctFilm[`${questionObject.answerType}`]) {
                     this.style.backgroundColor = '#50A93C'; // green color2
                     feedback.textContent = 'Correct!';
                     correct++;
                 }
                 else {
                     this.style.backgroundColor = '#E17575'; // light red color
-                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${films[correctFilmIndex][`${questionObject.answerType}`]}.`;
+                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${fetchFilmObject(correctFilmIndex)[`${questionObject.answerType}`]}.`;
                 }
             }
             answered = true;
@@ -93,20 +96,23 @@ const displayQuestion = () => {
     }
 }
 
-const fetchFilmObject = correctFilmIndex => {
-    fetch('https://pvieira04.github.io/minifilmdatabase/film.json')
+const fetchFilmObject = async correctFilmIndex => {
+    await fetch('https://pvieira04.github.io/minifilmdatabase/film.json')
         .then((response) => response.json())
         .then((json) => {
-            console.log(json[correctFilmIndex]);
-            console.log(json[correctFilmIndex].id);
-            return json[correctFilmIndex];
+            console.log;
+            console.log(`From the async function: ${JSON.stringify(json[correctFilmIndex])}`);
+            console.log(`From the async function: ${JSON.stringify(json[correctFilmIndex].id)}`);
+            q = JSON.stringify(json[correctFilmIndex]);
+            return JSON.stringify(json[correctFilmIndex]);
         });
 }
 
 const generateQuestion = () => {
     let i = generateRandomQuestionNumber();
     console.log(fetchFilmObject(i));
-    questionsAsked.push(fetchFilmObject(i)['id']);
+    console.log(q);
+    questionsAsked.push(fetchFilmObject(i).id);
     console.log(`id of questions already asked: ${questionsAsked}`);
     const questionTypeArray = [
         {
@@ -132,6 +138,7 @@ const generateQuestion = () => {
     return questionObject;
 }
 
+// This function randomly selects a film to be the subject of a question. It also checks whether that film has been selected before and keeps generating new films until it selects a film which has 
 const generateRandomQuestionNumber = () => {
     while (true) {
         let idNumber = Math.floor(Math.random() * films.length) + 1;
@@ -191,9 +198,6 @@ const displayResults = () => {
 document.addEventListener('DOMContentLoaded', () => {
     let start = document.getElementById('start-game');
     console.log(JSON.stringify(films));
-    fetch('./films.json')
-        .then((response) => response.json())
-        .then((json) => console.log(json));
     start.addEventListener('click', () => {
         displayQuestion();
     })
