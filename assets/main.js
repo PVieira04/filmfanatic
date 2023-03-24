@@ -53,6 +53,12 @@ const displayQuestion = async () => {
     let answered = false;
     // save the four buttons in a variable as an array.
     const buttons = document.getElementsByClassName('option');
+    // if user is loading a saved question they have already answered, add highlight and feedback message.
+    if (localStorage.answered) {
+        buttons[localStorage.selectedOptionIndex].style.backgroundColor = localStorage.highlight;
+        feedback.textContent = localStorage.feedbackMessage;
+        answered = true;
+    }
     // cycle through the array and add event listeners.
     for (let button of buttons) {
         button.addEventListener('click', async function () {
@@ -61,7 +67,12 @@ const displayQuestion = async () => {
                 return
             }
             else {
-                console.log(correctFilmIndex);
+                // change answered to "true".
+                answered = true;
+                // delete hover class from buttons
+                for (let button of buttons) {
+                    button.classList.remove('hover');
+                }
                 const correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
                     return object
                 });
@@ -81,13 +92,7 @@ const displayQuestion = async () => {
                     feedback.textContent = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
                 }
             }
-            // once feedback is given, change answered to "true".
-            answered = true;
-            // delete hover class from buttons
-            for (let button of buttons) {
-                button.classList.remove('hover');
-            }
-            // display button to naviagte to next qeustion.
+            // display button to navigate to next qeustion.
             next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
             // add event listener to new button.
             document.getElementById('next-button').addEventListener('click', function() {
@@ -310,32 +315,11 @@ const nextText = questionNumber => {
  *      savedOptions : [1998, 1977, 2021, 1997],
  *      correctFilmIndex : 4,
  *      answered : true,
- *      selectedOption : 1977,
+ *      selectedOptionIndex : 1,
+ *      highlight : '#E17575'
  *      feedbackMessage : 'Sorry! That is incorrect. The correct answer is 1997.'
  * }
  */
-const loadSavedState = () => {
-    divHead.textContent = `Question ${localStorage.questionNumber}`;
-    divText.textContent = localStorage.currentQuestion;
-    for (let i = 0; i < 4; i++) {
-        answerContainer.innerHTML += `<button class='option hover'>${currentOptions[i]}</button>`
-    }
-    if (localStorage.answered) {
-        // highlight the button
-        for (button of buttons) {
-            if (this.textContent == localStorage.selectedOption) {
-                if (localStorage.feedbackMessage == 'Correct!') {
-                    this.style.backgroundColor = '#50A93C';
-                }
-                else this.style.backgroundColor = '#E17575';
-            }
-        }
-        // display feedback text
-        feedback.textContent = localStorage.feedbackMessage;
-        // display next button
-        next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
-    }
-}
 
 /**
  * Once the DOM content has loaded, I want to apply an event listener
