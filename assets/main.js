@@ -242,6 +242,7 @@ const displayResults = () => {
         correct = 0;
         currentQuestion = 0;
         questionsAsked = [];
+        next.innerHTML = '';
         // call question one.
         displayQuestion();
     })
