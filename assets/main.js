@@ -23,6 +23,8 @@ const displayQuestion = async () => {
     let optionType = '';
     // load the question number from local storage if user has visited before.
     if (localStorage.startedQuiz) {
+        correct = localStorage.correctlyAnswered;
+        questionsAsked = localStorage.filmsAlreadyUsed;
         currentQuestion = localStorage.savedQuestionNumber;
         questionText = localStorage.savedQuestion;
         options = localStorage.savedOptions;
@@ -84,6 +86,7 @@ const displayQuestion = async () => {
                     feedback.textContent = 'Correct!';
                     // increment the correct variable by one.
                     correct++;
+                    localStorage.correctlyAnswered = correct;
                 }
                 else {
                     // turn background of button red.
@@ -168,6 +171,7 @@ const generateQuestion = async () => {
     const questionObject = await fetchFilmObject(i).then(film => {
         // push the film's [id] property to the global variable questionsAsked.
         questionsAsked.push(film.id);
+        localStorage.filmsAlreadyUsed = questionsAsked;
         // this is the array containing all the question objects - this can be added to.
         const questionTypeArray = [
             {
@@ -310,6 +314,8 @@ const nextText = questionNumber => {
  * can be incremented. The object could possibly look like this:
  * localStorage = {
  *      startedQuiz : true,
+ *      filmsAlreadyChosen : [2,3,5],
+ *      correctlyAnswered : 2,
  *      savedQuestionNumber : 3,
  *      savedQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
  *      savedOptions : [1998, 1977, 2021, 1997],
@@ -321,12 +327,17 @@ const nextText = questionNumber => {
  * }
  */
 
+
+//I need a function here which resets the localstorage object. TODO
+
+
 /**
  * Once the DOM content has loaded, I want to apply an event listener
  * to the button which, when clicked, displays question 1.
  */
 document.addEventListener('DOMContentLoaded', async () => {
     let start = document.getElementById('start-game');
+    console.log(localStorage)
     // check localStorage.startedSession
     // if true, add another button to resume session.
     // add event listener to both butttons.
