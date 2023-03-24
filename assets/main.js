@@ -164,34 +164,34 @@ const fetchFilmObject = async correctFilmIndex => {
  */
 const generateQuestion = async () => {
     // call generateRandomQuestionNumber and save it to "i". It is the index used for the current question.
-    let i = generateRandomQuestionNumber();
-    // push the film's [id] property to the global variable questionsAsked.
-    fetchFilmObject(i).then(film => questionsAsked.push(film.id))
-    //questionsAsked.push(films[i].id);
-    console.log(`id of questions already asked: [${questionsAsked}]`);
-    // this is the array containing all the question objects - this can be added to.
-    const questionTypeArray = [
-        {
-            question : `"${films[i].title}", starring ${films[i].mainActor} as ${films[i].mainChar}, was released in which year?`,
-            answerType : 'year'
-        },
-        {
-            question : `What is the name of the actor who plays ${films[i].mainChar} in "${films[i].title}", released in ${films[i].year}?`,
-            answerType : 'mainActor'
-        },
-        {
-            question : `Who does ${films[i].mainActor} play in ${films[i].year}'s "${films[i].title}"?`,
-            answerType : 'mainChar'
-        },
-        {
-            question : `Who directed "${films[i].title}", released in ${films[i].year}?`,
-            answerType : 'director'
-        }
-    ]
-    // generate a random integer between 0 and the length of the array(not inclusive);
-    let questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+    const i = await generateRandomQuestionNumber();
     // use this integer to select a question type - save to a variable;
-    let questionObject = questionTypeArray[questionTypeIndex];
+    let questionObject = await fetchFilmObject(i).then(film => {
+        // push the film's [id] property to the global variable questionsAsked.
+        questionsAsked.push(film.id);
+        // this is the array containing all the question objects - this can be added to.
+        const questionTypeArray = [
+            {
+                question : `"${film.title}", starring ${film.mainActor} as ${film.mainChar}, was released in which year?`,
+                answerType : 'year'
+            },
+            {
+                question : `What is the name of the actor who plays ${film.mainChar} in "${film.title}", released in ${film.year}?`,
+                answerType : 'mainActor'
+            },
+            {
+                question : `Who does ${film.mainActor} play in ${film.year}'s "${film.title}"?`,
+                answerType : 'mainChar'
+            },
+            {
+                question : `Who directed "${film.title}", released in ${film.year}?`,
+                answerType : 'director'
+            }
+        ]
+        // generate a random integer between 0 and the length of the array(not inclusive);
+        let questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+        return questionTypeArray[questionTypeIndex];
+    });
     // add a property to the questionObject containing the index of the film which is used as the subject of the question.
     questionObject.correctFilmIndex = i;
     // return the questionObject.
@@ -206,25 +206,26 @@ const generateQuestion = async () => {
  * film which has not been selected before.
  * The function takes in no parameters and returns an integer.
  */
-const generateRandomQuestionNumber = () => {
-    // begin while loop
-    while (true) {
-        // generate integer between 1 and the length of the films array - this allows for upscaling of the films object.
-        let idNumber = Math.floor(Math.random() * films.length) + 1;
-        // search for the film which has the same [id] property as the generated integer - save its index in the array.
-        let correctFilmIndex = films.findIndex(((film) => film.id === idNumber));
-        // since "correctFilmIndex" will be used many times in the upcoming code, save as shorter variable.
-        let i = correctFilmIndex;
-        console.log(`random number generated: ${i}`);
-        // check if film has been used as the subject of a question before.
-        if (questionsAsked.includes(films[i].id)) {
-            console.log(`The 'questionsAsked' array already has the id '${films[i].id}': ${questionsAsked.includes(films[i].id)}`)
-            // if the film has been used before, start the while loop again and find another value.
-            continue
+const generateRandomQuestionNumber = async () => {
+    const index = await fetchFilmsArray().then(array => {
+        console.log(array);
+        console.log(array.length);
+        while (true) {
+            let idNumber = Math.floor(Math.random() * array.length) + 1;
+            console.log(idNumber);
+            let correctFilmIndex = array.findIndex(((film) => film.id === idNumber));
+            console.log(correctFilmIndex);
+            let i = correctFilmIndex;
+            console.log(i);
+            if (questionsAsked.includes(array[i].id)) {
+                console.log(`The 'questionsAsked' array already has the id '${array[i].id}': ${questionsAsked.includes(array[i].id)}`)
+            }
+            else {
+                return i;
+            }
         }
-        // if the film has not been used before, return that film's index in the "films" array.
-        else return i
-    }
+    });
+    return index
 }
 
 /**
