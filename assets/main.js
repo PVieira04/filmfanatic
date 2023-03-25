@@ -107,6 +107,8 @@ const displayQuestion = async () => {
             }
             // display button to navigate to next qeustion.
             next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
+            // change focus to next question button.
+            document.getElementById('next-button').focus();
             // add event listener to new button.
             document.getElementById('next-button').addEventListener('click', function() {
                 // empty elements ready for next question or results page.
@@ -290,7 +292,9 @@ const displayResults = () => {
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
     // create button that allows the user to play again.
-    next.innerHTML = `<button class='hover'>Play Again</button>`;
+    next.innerHTML = `<button id='play-again' class='hover'>Play Again</button>`;
+    // change focus to Play Again button.
+    document.getElementById('play-again').focus();
     // add event listener to button.
     next.children[0].addEventListener('click', function() {
         // initialise required variables.
