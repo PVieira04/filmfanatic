@@ -27,7 +27,7 @@ const displayQuestion = async () => {
         questionsAsked = localStorage.filmsAlreadyUsed.split(',');
         currentQuestion = localStorage.savedQuestionNumber;
         questionText = localStorage.savedQuestion;
-        options = localStorage.savedOptions;
+        options = localStorage.savedOptions.split(',');
         optionType = localStorage.answerType;
     }
     else {
