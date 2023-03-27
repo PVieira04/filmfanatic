@@ -59,7 +59,8 @@ const displayQuestion = async () => {
     const buttons = document.getElementsByClassName('option');
     // if user is loading a saved question they have already answered, add highlight and feedback message.
     if (localStorage.answered === 'true') {
-        buttons[localStorage.selectedOptionIndex].style.backgroundColor = localStorage.highlight;
+        console.log(Number(localStorage.selectedOptionIndex));
+        buttons[Number(localStorage.selectedOptionIndex)].style.backgroundColor = localStorage.highlight;
         feedback.textContent = localStorage.feedbackMessage;
         answered = true;
     }
@@ -90,7 +91,7 @@ const displayQuestion = async () => {
                 // check if the text inside the element which was clicked is the same as the correct answer.
                 if (this.textContent == correctFilm[`${optionType}`]) {
                     // set local storage to save green color.
-                    localStorage.highilght = '#50A93C';
+                    localStorage.highlight = '#50A93C';
                     // set local storage to save feedback message.
                     localStorage.feedbackMessage = 'Correct!';
                     // increment the correct variable by one.
@@ -99,7 +100,7 @@ const displayQuestion = async () => {
                 }
                 else {
                     // set local storage to save red color.
-                    localStorage.highilght = '#E17575';
+                    localStorage.highlight = '#E17575';
                     // set local storage to save feedback message.
                     localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
                 }
