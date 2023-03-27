@@ -92,20 +92,24 @@ const displayQuestion = async () => {
                 });
                 // check if the text inside the element which was clicked is the same as the correct answer.
                 if (this.textContent == correctFilm[`${optionType}`]) {
-                    // turn background of button green.
-                    this.style.backgroundColor = '#50A93C';
-                    // tell the user they got the answer correct.
-                    feedback.textContent = 'Correct!';
+                    // set local storage to save green color.
+                    localStorage.highilght = '#50A93C';
+                    // set local storage to save feedback message.
+                    localStorage.feedbackMessage = 'Correct!';
                     // increment the correct variable by one.
-                    correct++;
                     localStorage.correctlyAnswered = correct;
+                    correct++;
                 }
                 else {
-                    // turn background of button red.
-                    this.style.backgroundColor = '#E17575';
-                    // tell the user they did not get the answer correct - also tell user correct answer.
-                    feedback.textContent = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
+                    // set local storage to save red color.
+                    localStorage.highilght = '#E17575';
+                    // set local storage to save feedback message.
+                    localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
                 }
+                // load highlight color from local storage.
+                this.style.backgroundColor = localStorage.highilght;
+                // give the user feedback on their answer.
+                feedback.textContent = localStorage.feedbackMessage;
             }
             // display button to navigate to next qeustion.
             next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
