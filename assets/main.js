@@ -61,7 +61,7 @@ const displayQuestion = async () => {
     // save the four buttons in a variable as an array.
     const buttons = document.getElementsByClassName('option');
     // if user is loading a saved question they have already answered, add highlight and feedback message.
-    if (localStorage.answered) {
+    if (localStorage.answered === true) {
         buttons[localStorage.selectedOptionIndex].style.backgroundColor = localStorage.highlight;
         feedback.textContent = localStorage.feedbackMessage;
         answered = true;
@@ -76,6 +76,8 @@ const displayQuestion = async () => {
             else {
                 // change answered to "true".
                 answered = true;
+                // tell local storage question has been answered.
+                localStorage.answered = true;
                 // assign selected option index to local storage
                 localStorage.selectedOption = this.textContent;
                 localStorage.selectedOptionIndex = options.findIndex((option) => {
@@ -115,6 +117,8 @@ const displayQuestion = async () => {
                 answerContainer.innerHTML = ``;
                 feedback.textContent = '';
                 next.innerHTML = '';
+                // tell local storage answer has not been answered yet.
+                localStorage.answered = false;
                 // check if fifth question has been reached. If not, call the displayQuestion function again.
                 if (currentQuestion < 5) {
                     // increment the current question by one.
