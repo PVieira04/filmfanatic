@@ -24,7 +24,7 @@ const displayQuestion = async () => {
     // load the question number from local storage if user has visited before.
     if (localStorage.startedQuiz) {
         correct = localStorage.correctlyAnswered;
-        questionsAsked = localStorage.filmsAlreadyUsed;
+        questionsAsked = localStorage.filmsAlreadyUsed.split(',');
         currentQuestion = localStorage.savedQuestionNumber;
         questionText = localStorage.savedQuestion;
         options = localStorage.savedOptions;
@@ -183,7 +183,7 @@ const generateQuestion = async () => {
     const questionObject = await fetchFilmObject(i).then(film => {
         // push the film's [id] property to the global variable questionsAsked.
         questionsAsked.push(film.id);
-        localStorage.filmsAlreadyUsed = [questionsAsked];
+        localStorage.filmsAlreadyUsed = questionsAsked;
         // this is the array containing all the question objects - this can be added to.
         const questionTypeArray = [
             {
@@ -328,7 +328,7 @@ const nextText = questionNumber => {
  * can be incremented. The object could possibly look like this:
  * localStorage = {
  *      startedQuiz : true,
- *      filmsAlreadyUsed : [2,3,5],
+ *      filmsAlreadyUsed : 2,3,5
  *      correctlyAnswered : 2,
  *      savedQuestionNumber : 3,
  *      savedQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
