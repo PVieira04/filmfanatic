@@ -370,7 +370,7 @@ const loadStateFromLocalStorage = () => {
     console.log('we have detected the quiz has begun');
     console.log('initialising variables');
     correct = localStorage.correctlyAnswered ? Number(localStorage.correctlyAnswered) : 0;
-    questionsAsked = localStorage.filmsAlreadyUsed.split(',');
+    questionsAsked = localStorage.filmsAlreadyUsed.split(',').map(num => Number(num));
     console.log(`You have been asked qeustions: ${questionsAsked}`);
     currentQuestion = localStorage.savedQuestionNumber;
     questionText = localStorage.savedQuestion;
