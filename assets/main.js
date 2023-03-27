@@ -94,8 +94,9 @@ const displayQuestion = async () => {
                         // set local storage to save feedback message.
                         localStorage.feedbackMessage = 'Correct!';
                         // increment the correct variable by one.
-                        localStorage.correctlyAnswered = correct;
                         correct++;
+                        // save it to local storage.
+                        localStorage.correctlyAnswered = correct;
                     }
                     else {
                         // set local storage to save red color.
