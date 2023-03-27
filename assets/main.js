@@ -2,6 +2,7 @@ const divHead = document.getElementById('div-head');
 const divText = document.getElementById('div-text');
 const answerContainer = document.getElementById('answer-container');
 const feedback = document.getElementById('feedback');
+const next = document.getElementById('next');
 let questionsAsked = [];
 let currentQuestion = 1;
 let correct = 0;
@@ -359,6 +360,7 @@ const nextText = questionNumber => {
  * to the button which, when clicked, displays question 1.
  */
 document.addEventListener('DOMContentLoaded', async () => {
+    next.innerHTML += "<button id='start-game'>Start Game</button>";
     let start = document.getElementById('start-game');
     console.log(localStorage)
     // check localStorage.startedSession
