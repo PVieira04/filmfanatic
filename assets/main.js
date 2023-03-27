@@ -3,6 +3,7 @@ const divText = document.getElementById('div-text');
 const answerContainer = document.getElementById('answer-container');
 const feedback = document.getElementById('feedback');
 const next = document.getElementById('next');
+const buttons = document.getElementsByClassName('option');
 let questionsAsked = [];
 let currentQuestion = 1;
 let correct = 0;
@@ -63,76 +64,53 @@ const displayQuestion = async () => {
         buttons[Number(localStorage.selectedOptionIndex)].style.backgroundColor = localStorage.highlight;
         feedback.textContent = localStorage.feedbackMessage;
         answered = true;
+        nextButton();
     }
-    // cycle through the array and add event listeners.
-    for (let button of buttons) {
-        button.addEventListener('click', async function () {
-            // if user has answered question already, don't do anything when user clicks again.
-            if (answered === true) {
-                return
-            }
-            else {
-                // change answered to "true".
-                answered = true;
-                // tell local storage question has been answered.
-                localStorage.answered = true;
-                // assign selected option index to local storage
-                localStorage.selectedOption = this.textContent;
-                localStorage.selectedOptionIndex = options.findIndex((option) => {
-                    if (localStorage.selectedOption === option) return option
-                });
-                // delete hover class from buttons
-                for (let button of buttons) {
-                    button.classList.remove('hover');
-                }
-                const correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
-                    return object
-                });
-                // check if the text inside the element which was clicked is the same as the correct answer.
-                if (this.textContent == correctFilm[`${optionType}`]) {
-                    // set local storage to save green color.
-                    localStorage.highlight = '#50A93C';
-                    // set local storage to save feedback message.
-                    localStorage.feedbackMessage = 'Correct!';
-                    // increment the correct variable by one.
-                    localStorage.correctlyAnswered = correct;
-                    correct++;
+    else {
+        // cycle through the array and add event listeners.
+        for (let button of buttons) {
+            button.addEventListener('click', async function () {
+                // if user has answered question already, don't do anything when user clicks again.
+                if (answered === true) {
+                    return
                 }
                 else {
-                    // set local storage to save red color.
-                    localStorage.highlight = '#E17575';
-                    // set local storage to save feedback message.
-                    localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
+                    // change answered to "true".
+                    answered = true;
+                    // tell local storage question has been answered.
+                    localStorage.answered = true;
+                    // assign selected option index to local storage
+                    localStorage.selectedOption = this.textContent;
+                    localStorage.selectedOptionIndex = options.findIndex((option) => {
+                        if (localStorage.selectedOption === option) return option
+                    });
+                    const correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
+                        return object
+                    });
+                    // check if the text inside the element which was clicked is the same as the correct answer.
+                    if (this.textContent == correctFilm[`${optionType}`]) {
+                        // set local storage to save green color.
+                        localStorage.highlight = '#50A93C';
+                        // set local storage to save feedback message.
+                        localStorage.feedbackMessage = 'Correct!';
+                        // increment the correct variable by one.
+                        localStorage.correctlyAnswered = correct;
+                        correct++;
+                    }
+                    else {
+                        // set local storage to save red color.
+                        localStorage.highlight = '#E17575';
+                        // set local storage to save feedback message.
+                        localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
+                    }
+                    // load highlight color from local storage.
+                    this.style.backgroundColor = localStorage.highlight;
+                    // give the user feedback on their answer.
+                    feedback.textContent = localStorage.feedbackMessage;
                 }
-                // load highlight color from local storage.
-                this.style.backgroundColor = localStorage.highilght;
-                // give the user feedback on their answer.
-                feedback.textContent = localStorage.feedbackMessage;
-            }
-            // display button to navigate to next qeustion.
-            next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
-            // change focus to next question button.
-            document.getElementById('next-button').focus();
-            // add event listener to new button.
-            document.getElementById('next-button').addEventListener('click', function() {
-                // empty elements ready for next question or results page.
-                answerContainer.innerHTML = ``;
-                feedback.textContent = '';
-                next.innerHTML = '';
-                // tell local storage answer has not been answered yet.
-                localStorage.answered = false;
-                // check if fifth question has been reached. If not, call the displayQuestion function again.
-                if (currentQuestion < 5) {
-                    // set load state to flase.
-                    localStorage.stateLoaded = 'false';
-                    // increment the current question by one.
-                    currentQuestion++;
-                    displayQuestion();
-                }
-                // If so, display results.
-                else displayResults();
+                nextButton();
             })
-        })
+        }
     }
 }
 
@@ -324,6 +302,37 @@ const nextText = questionNumber => {
     else return "Show Results"
 }
 
+const nextButton = () => {
+    console.log('this is the next button function');
+    // delete hover class from buttons
+    for (let button of buttons) {
+        button.classList.remove('hover');
+    }
+    // display button to navigate to next qeustion.
+    next.innerHTML = `<button id='next-button' class='hover'>${nextText(currentQuestion)}</button>`;
+    // change focus to next question button.
+    document.getElementById('next-button').focus();
+    // add event listener to new button.
+    document.getElementById('next-button').addEventListener('click', function() {
+        // empty elements ready for next question or results page.
+        answerContainer.innerHTML = ``;
+        feedback.textContent = '';
+        next.innerHTML = '';
+        // tell local storage answer has not been answered yet.
+        localStorage.answered = false;
+        // check if fifth question has been reached. If not, call the displayQuestion function again.
+        if (currentQuestion < 5) {
+            // set load state to flase.
+            localStorage.stateLoaded = 'false';
+            // increment the current question by one.
+            currentQuestion++;
+            displayQuestion();
+        }
+        // If so, display results.
+        else displayResults();
+    })
+}
+
 /**
  * Thinking about a local storage function...
  * I could use the storage function to load the last question the user was on
@@ -357,6 +366,7 @@ const nextText = questionNumber => {
 
 //I need a function here which resets the localstorage object. TODO
 const loadStateFromLocalStorage = () => {
+    next.innerHTML = '';
     console.log('we have detected the quiz has begun');
     console.log('initialising variables');
     correct = localStorage.correctlyAnswered ? Number(localStorage.correctlyAnswered) : 0;
@@ -368,7 +378,6 @@ const loadStateFromLocalStorage = () => {
     console.log(`These are the saved options: ${options}`);
     optionType = localStorage.answerType;
     correctFilmIndex = localStorage.correctFilmIndex;
-    localStorage.startedQuiz = 'false';
     localStorage.stateLoaded = 'true';
     displayQuestion();
 }
@@ -386,10 +395,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (button.textContent === 'Start Game') {
                 localStorage.clear();
                 localStorage.stateLoaded = 'false';
+                next.innerHTML = '';
                 displayQuestion();
             }
             else loadStateFromLocalStorage();
-            next.innerHTML = '';
         })
     }
     console.log(localStorage)
