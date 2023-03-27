@@ -6,6 +6,10 @@ const next = document.getElementById('next');
 let questionsAsked = [];
 let currentQuestion = 1;
 let correct = 0;
+let questionText = '';
+let options = [];
+let optionType = '';
+let correctFilmIndex = null;
 
 /**
  * This function displays the question and four options for the user 
@@ -18,26 +22,16 @@ let correct = 0;
  * It is a state the page stays in until the user interacts with it.
  */
 const displayQuestion = async () => {
-    // initialise variables
-    let questionText = '';
-    let options = [];
-    let optionType = '';
-    // load the question number from local storage if user has visited before.
-    if (localStorage.startedQuiz === true) {
-        correct = localStorage.correctlyAnswered;
-        questionsAsked = localStorage.filmsAlreadyUsed.split(',');
-        currentQuestion = localStorage.savedQuestionNumber;
-        questionText = localStorage.savedQuestion;
-        options = localStorage.savedOptions.split(',');
-        optionType = localStorage.answerType;
-    }
-    else {
+    console.log(`The previous state will be loaded: ${localStorage.stateLoaded}`)
+    if (localStorage.stateLoaded === 'false') {
         // tell localStorage the user has started the quiz.
-        localStorage.startedQuiz = true;
+        localStorage.startedQuiz = 'true';
         // call generateQuestion and save the returned object to a variable.
         const questionObject = await generateQuestion();
         // extract the question which will be displayed into a variable.
+        console.log(`question text: ${questionText}`);
         questionText = questionObject.question;
+        console.log(`question text: ${questionText}`);
         // extract the index of the correct film - save to a variable.
         correctFilmIndex = questionObject.correctFilmIndex;
         // extract the answerType property into a variable
@@ -64,7 +58,7 @@ const displayQuestion = async () => {
     // save the four buttons in a variable as an array.
     const buttons = document.getElementsByClassName('option');
     // if user is loading a saved question they have already answered, add highlight and feedback message.
-    if (localStorage.answered === true) {
+    if (localStorage.answered === 'true') {
         buttons[localStorage.selectedOptionIndex].style.backgroundColor = localStorage.highlight;
         feedback.textContent = localStorage.feedbackMessage;
         answered = true;
@@ -128,6 +122,8 @@ const displayQuestion = async () => {
                 localStorage.answered = false;
                 // check if fifth question has been reached. If not, call the displayQuestion function again.
                 if (currentQuestion < 5) {
+                    // set load state to flase.
+                    localStorage.stateLoaded = 'false';
                     // increment the current question by one.
                     currentQuestion++;
                     displayQuestion();
@@ -299,6 +295,8 @@ const generateOptions = async (correctFilmIndex, answerType) => {
  * stays in until the user clicks on the "Play Again" button or refreshes the page.
  */
 const displayResults = () => {
+    // clear local sotrage.
+    localStorage.clear();
     // display results
     divHead.textContent = 'Results';
     divText.textContent = `You scored ${correct} out of 5!`;
@@ -313,6 +311,8 @@ const displayResults = () => {
         currentQuestion = 1;
         questionsAsked = [];
         next.innerHTML = '';
+        // load state should be false;
+        localStorage.stateLoaded = 'false';
         // call question one.
         displayQuestion();
     })
@@ -355,26 +355,41 @@ const nextText = questionNumber => {
 
 
 //I need a function here which resets the localstorage object. TODO
-
+const loadStateFromLocalStorage = () => {
+    console.log('we have detected the quiz has begun');
+    console.log('initialising variables');
+    correct = localStorage.correctlyAnswered ? Number(localStorage.correctlyAnswered) : 0;
+    questionsAsked = localStorage.filmsAlreadyUsed.split(',');
+    console.log(`You have been asked qeustions: ${questionsAsked}`);
+    currentQuestion = localStorage.savedQuestionNumber;
+    questionText = localStorage.savedQuestion;
+    options = localStorage.savedOptions.split(',');
+    console.log(`These are the saved options: ${options}`);
+    optionType = localStorage.answerType;
+    correctFilmIndex = localStorage.correctFilmIndex;
+    localStorage.startedQuiz = 'false';
+    localStorage.stateLoaded = 'true';
+    displayQuestion();
+}
 
 /**
  * Once the DOM content has loaded, I want to apply an event listener
  * to the button which, when clicked, displays question 1.
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    next.innerHTML += "<button id='start-game'>Start Game</button>";
-    let start = document.getElementById('start-game');
+    next.innerHTML += "<button>Start Game</button>";
+    if (localStorage.startedQuiz == 'true') next.innerHTML += "<button>Load Game</button>";
+    let playbuttons = document.getElementsByTagName('button');
+    for (let button of playbuttons) {
+        button.addEventListener('click', () => {
+            if (button.textContent === 'Start Game') {
+                localStorage.clear();
+                localStorage.stateLoaded = 'false';
+                displayQuestion();
+            }
+            else loadStateFromLocalStorage();
+            next.innerHTML = '';
+        })
+    }
     console.log(localStorage)
-    // check localStorage.startedSession
-    // if true, add another button to resume session.
-    // add event listener to both butttons.
-    // if resume session is selected: localStorage.resume = true
-    // if start game is selected, run the localStorage reset function (upcoming feature)
-    // add event listener to start button.
-    start.addEventListener('click', () => {
-        next.innerHTML = '';
-        // when clicked, go to question one.
-        localStorage.clear();
-        displayQuestion();
-    })
 })
