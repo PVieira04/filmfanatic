@@ -23,7 +23,7 @@ const displayQuestion = async () => {
     let options = [];
     let optionType = '';
     // load the question number from local storage if user has visited before.
-    if (localStorage.startedQuiz) {
+    if (localStorage.startedQuiz === true) {
         correct = localStorage.correctlyAnswered;
         questionsAsked = localStorage.filmsAlreadyUsed.split(',');
         currentQuestion = localStorage.savedQuestionNumber;
@@ -32,6 +32,8 @@ const displayQuestion = async () => {
         optionType = localStorage.answerType;
     }
     else {
+        // tell localStorage the user has started the quiz.
+        localStorage.startedQuiz = true;
         // call generateQuestion and save the returned object to a variable.
         const questionObject = await generateQuestion();
         // extract the question which will be displayed into a variable.
