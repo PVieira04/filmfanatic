@@ -199,7 +199,7 @@ The site was deployed to GitHub pages. The steps to deploy are as follows:
   - Under the "Code and automation" section, click on "Pages"
   - Under "Build and Deployment", select the option "Deploy from a branch" for "Source", and for "Branch", select "main".
 
-[This is the live website](https://pvieira04.github.io/mastermaths/)
+[This is the live website](https://pvieira04.github.io/filmfanatic/)
 
 ## Credits 
 
