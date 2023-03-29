@@ -103,6 +103,8 @@ The following features are my scope for this project:
 
 ### Structure
 
+This will be the flow of how the user will navigate the website:
+
 1. Welcome message + instructions + start game button
 2. Question one
 3. Question two
