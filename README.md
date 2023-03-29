@@ -139,7 +139,7 @@ For My skeleton, I wanted to have the layout for 5 different sections:
 
 - HTML5 - The latest version of HTML. Allows content to be placed on the website.
 - CSS3 - The latest version of CSS. Allows for custom styling of HTML elements.
-- JavaScript - 
+- JavaScript - The latest version of vanilla JavaScript. Allows for extensive interactability with the user.
 
 ## Design
 
