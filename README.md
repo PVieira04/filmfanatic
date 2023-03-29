@@ -129,7 +129,9 @@ For My skeleton, I wanted to have the layout for 5 different sections:
 
 ### Review with Mentor
 
-- 
+- Since this is a front-end project, it would be unwise to use an API. This is becasue any API keys that I include are not protected and anyone could end up using the keys for themselves.
+- This means I will be unable to achieve the sixth project goal.
+- However, I will be able to simulate an API call and show that it works as a proof of concept.
 
 ## Technology
 
