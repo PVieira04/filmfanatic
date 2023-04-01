@@ -186,7 +186,13 @@ These are the results of the [contrast checker](https://webaim.org/resources/con
 
 ### Features Left to Implement
 
-- 
+- With regards to the initial scope of the project, all features have been implemented.
+- However, additional features can be implemented at another stage.
+
+### Future Features
+
+- In order to achieve the original sixth project goal of using an API, a back end can be built to support the fully functioning front end. This will allow the safe use of an API where a key is needed.
+- For the option selection function in JavaScript, a more intelligent system of selecting options can be implemented. For example, if a year is given as the answer, the code will generate three random year which are close but not the same as the target year. That way, if a film was released in 1977, an option of 2021 would not come up.
 
 ## Testing 
 
