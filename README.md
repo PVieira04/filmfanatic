@@ -64,8 +64,6 @@ In this section, I outline the initial planning stages for this project.
 
 ### Strategy
 
-
-
 ---
 | **Opportunity / Problem** | **Importance** | **Viability / Feasibility** | **Difficulty** |
 |-----------------------------|:-:|:-:|:-:|
@@ -164,7 +162,7 @@ Since the Crimson colour is only used on large text, this colour combination is 
 
 ### __Imagery__
 
-- 
+- The background for the site features several repeating icons relating to film such as a projector, a camcorder, a cd, popcorn and 3D glasses.
 
 ### __Wireframes__
 
@@ -291,4 +289,4 @@ The site was deployed to GitHub pages. The steps to deploy are as follows:
 
 ### Media
 
-- 
+- Thank you to [patternico](https://patternico.com) for allowing me to use your free tool to generate a seamless background to my site.
