@@ -178,9 +178,39 @@ These are the results of the [contrast checker](https://webaim.org/resources/con
 
 ## Features
 
-### The Landing Page
+### Welcome
 
-  - 
+  - Welcome message, instructions and start button
+
+![Landing Page - Desktop]()
+
+### Option Selection
+
+  - Generates question + options
+
+![Landing Page - Desktop]()
+
+### Feedback
+
+  - Feedback on selected answer -> show correct answer -> next question
+
+![Landing Page - Desktop]()
+
+### Results
+
+  - show how many correct + play again
+
+![Landing Page - Desktop]()
+
+### Fetching Data
+
+  - try and catch
+
+![Landing Page - Desktop]()
+
+### Local Storage
+
+  - storing and loading
 
 ![Landing Page - Desktop]()
 
