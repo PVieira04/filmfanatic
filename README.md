@@ -1,4 +1,4 @@
-# MasterMaths
+# Film Fanatic
 
 [This project](https://pvieira04.github.io/filmfanatic/) is now live on Github Pages.
 
