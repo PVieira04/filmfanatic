@@ -207,37 +207,50 @@ Since the Crimson colour is only used on large text, this colour combination is 
 
 ### Welcome
 
-  - Welcome message, instructions and start button
+  - This is what the user will see upon loading the website.
+  - They will see the website logo, a welcome message, instructions on how to play, and a start game button.
+  - The "Start Game" button is the only interactable item on this page.
 
-![Landing Page - Desktop]()
+![Welcome Page New - Desktop]()
+
+### Local Storage
+
+  - If the user has visited the website before and started the quiz, local storage will activate the hidden "Load Game" button.
+  - This makes it so, when clicked, the user is redirected to the state the game was in when they closed the tab.
+
+![Welcome Page Load - Desktop]()
 
 ### Option Selection
 
-  - Generates question + options
+  - Once the "Start Game" button is clicked, a question will be generated along with four options to choose from; one of which is the correct answer.
+  - The question type is generated randomly, as well as the film that is chosen as the subject ofthe question.
+  - To ensure the selected film is not repeated in any subsequent questions, the id of that film is added to an array. This array is checked every time a question is to be created.
 
 ![Landing Page - Desktop]()
 
 ### Feedback
 
-  - Feedback on selected answer -> show correct answer -> next question
+  - Upon selecting one of the four options, the user will receive feedback on whether they got the question correct or not.
+  - Colour is used for the user to easily identify whether their chosen option is the correct answer, as well as a message, for those who are hard of seeing.
+  - When selecting the wrong answer, the user will be told in this messsage what the correct answer is.
+  - A button is also displayed, which takes the user to the next question, if they choose the press it.
 
 ![Landing Page - Desktop]()
 
 ### Results
 
-  - show how many correct + play again
+  - This shows the total number of questions that the user got correct.
+  - A button is also shown below the results which can allow the user to play the quiz from the beginning.
+  - The quiz that is generated upon playing again is completely randomised so it is possible for the user to receive the exact same qeustions in the exact same order, however this event is so unlikely that guarding against this is not considered.
 
 ![Landing Page - Desktop]()
 
 ### Fetching Data
 
-  - try and catch
-
-![Landing Page - Desktop]()
-
-### Local Storage
-
-  - storing and loading
+  - In order to retrieve film data, the code fetches data from an external endpoint.
+  - This endpoint originates from another repository which was set up in order to host the mini database of five films which were used for this project.
+  - In case the code is not able to pull from this external endpoint, the code instead pulls the information from a JSON file which is located in this respository.
+  - The code does this by using the "try" and "catch" keywords.
 
 ![Landing Page - Desktop]()
 
