@@ -145,23 +145,22 @@ For My skeleton, I wanted to have the layout for 5 different sections:
 
 ### __Colour Scheme__
 
-- 
+- #FAFAFA, Platinum: Used for the background of the website.
+- #D8321C, Crimson: Used for the website logo at the top of the page.
+- #FFFFFF, Black: Used for general text on the site.
 
-These are the results of the [contrast checker](https://webaim.org/resources/contrastchecker/):
+![Crimson on Platinum Background](https://coolors.co/contrast-checker/d8321c-fafafa)
 
-![]()
-
-#### Other Checks on Used Combinations
-
-[]()
+Since the Crimson colour is only used on large text, this colour combination is good enough for any accessibility requirements.
 
 ### __Typography__
 
-- 
+- The website logo's font uses a custom font called Waltograph. This is a style inspired by Disney and keeps the website on-theme while also giving it a playful feel.
+- The rest of the site uses the Lora font which I think complements Waltograph quite well.
 
 ### __Accessibility__
 
-- 
+- For Keyboard only users, I have implemented a feature where when a question has been answered, the tab focus goes straight to the next question button. This saves the user time to tab through the rest of the buttons.
 
 ### __Imagery__
 
