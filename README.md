@@ -1,6 +1,6 @@
 # MasterMaths
 
-[This project](https://pvieira04.github.io/mastermaths/) is now live on Github Pages.
+[This project](https://pvieira04.github.io/filmfanatic/) is now live on Github Pages.
 
 FilmFanatic is a site where users can play a quiz game which is all about film.
 
