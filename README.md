@@ -243,7 +243,11 @@ The site was deployed to GitHub pages. The steps to deploy are as follows:
 
 ### Content 
 
-- 
+- Thank you to [Code Institute](https://codeinstitute.net/) for giving me the knowledge I needed to complete this project, specifically thier tutorials on how to manipulate the DOM with JavaScript.
+- Thank you to my mentor Can Suculu for assisting me with understanding APIs and ensuring I do not use any API keys in this front-end only project.
+- Thank you to Joel Olawanle for his [blog post](https://www.freecodecamp.org/news/how-to-read-json-file-in-javascript/) on reading JSON files in JavaScript.
+- Thank you to Dmitri Pavlutin for his [blog post](https://dmitripavlutin.com/javascript-fetch-async-await/) on using fetch with async / await.
+- Thank you to W3 Schools for [their post](https://www.w3schools.com/html/html5_webstorage.asp) on HTML web storage. It was invaluable in learning the uses and limitations of Local Storage which I used in my project.
 
 ### Media
 
