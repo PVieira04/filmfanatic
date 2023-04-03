@@ -193,6 +193,8 @@ These are the results of the [contrast checker](https://webaim.org/resources/con
 
 - In order to achieve the original sixth project goal of using an API, a back end can be built to support the fully functioning front end. This will allow the safe use of an API where a key is needed.
 - For the option selection function in JavaScript, a more intelligent system of selecting options can be implemented. For example, if a year is given as the answer, the code will generate three random year which are close but not the same as the target year. That way, if a film was released in 1977, an option of 2021 would not come up.
+- Add different kinds of questions regarding awards received from different institutions such as the Oscars, Golden Globes etc.
+- Add a functionality for users to select how many questions they wish to answer.
 
 ## Testing 
 
