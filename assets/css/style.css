@@ -62,10 +62,12 @@ h1 {
     font-size: 4.5em;
     font-family: waltograph, sans-serif;
     letter-spacing: 0.05em;
+    text-shadow: 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa;
 }
 
 h2 {
     font-size: 2em;
+    text-shadow: 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa;
 }
 
 p {
@@ -73,6 +75,7 @@ p {
     max-width: 1000px;
     margin: auto;
     padding-bottom: 10px;
+    text-shadow: 0 0 5px #fafafa, 0 0 5px #fafafa, 0 0 5px #fafafa, 0 0 5px #fafafa;
 }
 
 button {
