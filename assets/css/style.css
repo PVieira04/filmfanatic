@@ -63,12 +63,12 @@ h1 {
     font-size: 4.5em;
     font-family: waltograph, sans-serif;
     letter-spacing: 0.05em;
-    text-shadow: 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa;
+    text-shadow: 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF;
 }
 
 h2 {
     font-size: 2em;
-    text-shadow: 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa, 0 0 20px #fafafa;
+    text-shadow: 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF;
 }
 
 p {
@@ -76,7 +76,7 @@ p {
     max-width: 1000px;
     margin: auto;
     padding-bottom: 10px;
-    text-shadow: 0 0 5px #fafafa, 0 0 5px #fafafa, 0 0 5px #fafafa, 0 0 5px #fafafa;
+    text-shadow: 0 0 5px #FFF, 0 0 5px #FFF, 0 0 5px #FFF, 0 0 5px #FFF;
 }
 
 button {
@@ -87,7 +87,7 @@ button {
     border: black solid 2px;
     border-radius: 5px;
     transition: background-color 0.5s ease;
-    background-color: #fafafa;
+    background-color: #FFF;
 }
 
 .hover:hover, #start-game:hover {
