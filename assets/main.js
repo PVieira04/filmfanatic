@@ -154,6 +154,90 @@ const fetchFilmObject = async correctFilmIndex => {
     }
 }
 
+
+
+const generateQuestion2 = async () => {
+    // create the questionObject and asign to await fetchFilmArray().then(array => {do some stuff here})
+    const questionObject = await fetchFilmsArray().then(array => {
+        // first select a random index. This may be a separate function (generate random question number). This "i" is also know as the "correctFilmIndex".
+        const i = generateRandomQuestionNumber2(array);
+        const questionTypeArray = [
+            {
+                question : `"${array[i].title}", starring ${array[i].mainActor} as ${array[i].mainChar}, was released in which year?`,
+                answerType : 'year'
+            },
+            {
+                question : `What is the name of the actor who plays ${array[i].mainChar} in "${array[i].title}", released in ${array[i].year}?`,
+                answerType : 'mainActor'
+            },
+            {
+                question : `Who does ${array[i].mainActor} play in ${array[i].year}'s "${array[i].title}"?`,
+                answerType : 'mainChar'
+            },
+            {
+                question : `Who directed "${array[i].title}", released in ${array[i].year}?`,
+                answerType : 'director'
+            }
+        ]
+        // generate a random integer between 0 and the length of the array(not inclusive);
+        const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+        const objectToReturn = questionTypeArray[questionTypeIndex];
+        // before returning the object, we need to add the options as well as the correct option.
+        objectToReturn.options = generateOptions2(i, objectToReturn.answerType);
+        // return the object
+        return objectToReturn
+    })
+    return questionObject;
+}
+
+const generateRandomQuestionNumber2 = array => {
+    while (true) {
+        const idNumber = Math.floor(Math.random() * array.length) + 1;
+        console.log(idNumber);
+        const correctFilmIndex = array.findIndex(((film) => film.id === idNumber));
+        console.log(correctFilmIndex);
+        const i = correctFilmIndex;
+        console.log(i);
+        if (questionsAsked.includes(array[i].id)) {
+            console.log(`The 'questionsAsked' array already has the id '${array[i].id}': ${questionsAsked.includes(array[i].id)}`)
+        }
+        else {
+            return i;
+        }
+    }
+}
+
+const generateOptions2 = (i, answerType) => {
+    let answerOptions = [];
+        // generate a random position for the correct answer
+        const correctPosition = Math.floor(Math.random() * 4);
+        // begin loop. If loop position is equal to position for correct answer, push correct answer
+        let loopPosition = 0;
+        while (answerOptions.length < 4) {
+            if (loopPosition === correctPosition) {
+                answerOptions.push(array[i][`${answerType}`]);
+                localStorage.answer = array[i][`${answerType}`];
+                loopPosition++;
+                continue
+            }
+            // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
+            else {
+                const randomFilmIndex = Math.floor(Math.random() * array.length);
+                // if it's equal to the correct answer, throw it away
+                if (array[randomFilmIndex][`${answerType}`] === array[i][`${answerType}`]) continue
+                // if it already exists in the array, throw it away
+                if (answerOptions.includes(array[randomFilmIndex][`${answerType}`])) continue
+                // otherwise add the answer
+                answerOptions.push(array[randomFilmIndex][`${answerType}`]);
+                loopPosition++;
+                continue
+            }
+        }
+        return answerOptions
+}
+
+
+
 /**
  * This function's primary role is to generate the question which will be displayed on the screen.
  * This function takes no parameters and returns an object with three properties.
