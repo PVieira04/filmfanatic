@@ -209,14 +209,14 @@ Since the Crimson colour is only used on large text, this colour combination is 
   - They will see the website logo, a welcome message, instructions on how to play, and a start game button.
   - The "Start Game" button is the only interactable item on this page.
 
-![Welcome Page New - Desktop]()
+![Welcome Page New](./assets/media/features/film-fanatic-welcome-new-desktop.png)
 
 ### Local Storage
 
   - If the user has visited the website before and started the quiz, local storage will activate the hidden "Load Game" button.
   - This makes it so, when clicked, the user is redirected to the state the game was in when they closed the tab.
 
-![Welcome Page Load - Desktop]()
+![Welcome Page Load](./assets/media/features/film-fanatic-welcome-load-desktop.png)
 
 ### Option Selection
 
@@ -224,7 +224,8 @@ Since the Crimson colour is only used on large text, this colour combination is 
   - The question type is generated randomly, as well as the film that is chosen as the subject ofthe question.
   - To ensure the selected film is not repeated in any subsequent questions, the id of that film is added to an array. This array is checked every time a question is to be created.
 
-![Landing Page - Desktop]()
+![Unanswered Question - Desktop](./assets/media/features/film-fanatic-unanswered-desktop.png)
+  - [Unanswered Question - Mobile](./assets/media/features/film-fanatic-unanswered-mobile.png)
 
 ### Feedback
 
@@ -233,7 +234,10 @@ Since the Crimson colour is only used on large text, this colour combination is 
   - When selecting the wrong answer, the user will be told in this messsage what the correct answer is.
   - A button is also displayed, which takes the user to the next question, if they choose the press it.
 
-![Landing Page - Desktop]()
+  ![Question Answered Inorrectly - Desktop](./assets/media/features/film-fanatic-incorrect-desktop.png)
+  - [Question Answered Inorrectly - Mobile](./assets/media/features/film-fanatic-incorrect-mobile.png)
+  - [Question Answered Correctly - Desktop](./assets/media/features/film-fanatic-correct-desktop.png)
+  - [Question Answered Correctly - Mobile](./assets/media/features/film-fanatic-correct-mobile.png)
 
 ### Results
 
@@ -241,7 +245,7 @@ Since the Crimson colour is only used on large text, this colour combination is 
   - A button is also shown below the results which can allow the user to play the quiz from the beginning.
   - The quiz that is generated upon playing again is completely randomised so it is possible for the user to receive the exact same qeustions in the exact same order, however this event is so unlikely that guarding against this is not considered.
 
-![Landing Page - Desktop]()
+![Results](./assets/media/features/film-fanatic-results.png)
 
 ### Fetching Data
 
