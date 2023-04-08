@@ -160,6 +160,10 @@ Since the Crimson colour is only used on large text, this colour combination is 
 
 - For Keyboard only users, I have implemented a feature where when a question has been answered, the tab focus goes straight to the next question button. This saves the user time to tab through the rest of the buttons.
 
+- Text elements have a shadow added to them so that text appears clearer on the themed background.
+
+- Contrast between colours is high enough to accommodate users with visual impairments up to WCAG level AAA.
+
 ### __Imagery__
 
 - The background for the site features several repeating icons relating to film such as a projector, a camcorder, a cd, popcorn and 3D glasses.
