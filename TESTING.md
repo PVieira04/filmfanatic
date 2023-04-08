@@ -43,13 +43,18 @@ I have asked many different users to test the website and all have gone through 
 
 ## Lighthouse Report
 
-Before:
-![Lighthouse Report](./assets/media/lighthouse/film-fanatic-lighthouse-before.png)
+Before
+![Lighthouse Report Before](./assets/media/lighthouse/film-fanatic-lighthouse-before.png)
 
-Actions:
-- 
+Actions
+- Add a meta description to index.html to increase SEO score.
+- Fix the Flash of Invisible Text (FOIT) for the h1 tag when loading the page.
 
-Lighthouse after:
+Mobile
+![Lighthouse Report After for Mobile](./assets/media/lighthouse/film-fanatic-lighthouse-mobile.png)
+
+Desktop
+![Lighthouse Report After for Desktop](./assets/media/lighthouse/film-fanatic-lighthouse-desktop.png)
 
 ## Fixed Issues
 
