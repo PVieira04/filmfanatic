@@ -43,11 +43,13 @@ I have asked many different users to test the website and all have gone through 
 
 ## Lighthouse Report
 
-- Lighthouse report before: 
+Before:
+![Lighthouse Report](./assets/media/lighthouse/film-fanatic-lighthouse-before.png)
 
-- Actions:
+Actions:
+- 
 
-- Lighthouse after:
+Lighthouse after:
 
 ## Fixed Issues
 
