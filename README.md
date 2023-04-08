@@ -147,7 +147,7 @@ For My skeleton, I wanted to have the layout for 5 different sections:
 - #D8321C, Crimson: Used for the website logo at the top of the page.
 - #FFFFFF, Black: Used for general text on the site.
 
-![Crimson on Platinum Background](https://coolors.co/contrast-checker/d8321c-fafafa)
+[Crimson on Platinum Background](https://coolors.co/contrast-checker/d8321c-fafafa)
 
 Since the Crimson colour is only used on large text, this colour combination is good enough for any accessibility requirements.
 
