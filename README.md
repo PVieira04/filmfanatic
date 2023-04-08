@@ -268,7 +268,7 @@ Since the Crimson colour is only used on large text, this colour combination is 
 
 ## Testing 
 
-Please refer to the [TESTING.md]() file.
+Please refer to the [TESTING.md](./TESTING.md) file.
 
 ## Deployment
 
