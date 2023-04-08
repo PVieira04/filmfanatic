@@ -4,7 +4,7 @@
 
 FilmFanatic is a site where users can play a quiz game which is all about film.
 
-![Responsiveness Showcase via amiresponsive.co.uk]()
+![Responsiveness Showcase via amiresponsive.co.uk](./assets/media/features/film-fanatic-amiresponsive.png)
 
 ## [Contents](#contents)
 
@@ -253,8 +253,6 @@ Since the Crimson colour is only used on large text, this colour combination is 
   - This endpoint originates from another repository which was set up in order to host the mini database of five films which were used for this project.
   - In case the code is not able to pull from this external endpoint, the code instead pulls the information from a JSON file which is located in this respository.
   - The code does this by using the "try" and "catch" keywords.
-
-![Landing Page - Desktop]()
 
 ### Features Left to Implement
 
