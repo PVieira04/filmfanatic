@@ -38,7 +38,7 @@ const displayQuestion = async () => {
         // extract the answerType property into a variable
         optionType = questionObject.answerType
         // call generateOptions and save to options variable - this is an array containing four elements.
-        options = await generateOptions(correctFilmIndex, questionObject.answerType);
+        options = questionObject.options;
         // save values to localStorage
         localStorage.correctFilmIndex = correctFilmIndex;
         localStorage.savedQuestionNumber = currentQuestion;
@@ -84,11 +84,8 @@ const displayQuestion = async () => {
                     localStorage.selectedOptionIndex = options.findIndex((option) => {
                         if (localStorage.selectedOption === option) return option
                     });
-                    const correctFilm = await fetchFilmObject(correctFilmIndex).then(object => {
-                        return object
-                    });
                     // check if the text inside the element which was clicked is the same as the correct answer.
-                    if (this.textContent == correctFilm[`${optionType}`]) {
+                    if (this.textContent == localStorage.answer) {
                         // set local storage to save green color.
                         localStorage.highlight = '#50A93C';
                         // set local storage to save feedback message.
@@ -102,7 +99,7 @@ const displayQuestion = async () => {
                         // set local storage to save red color.
                         localStorage.highlight = '#E17575';
                         // set local storage to save feedback message.
-                        localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctFilm[`${optionType}`]}.`;
+                        localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${localStorage.answer}.`;
                     }
                     // load highlight color from local storage.
                     this.style.backgroundColor = localStorage.highlight;
@@ -134,33 +131,15 @@ const fetchFilmsArray = async () => {
     }
 }
 
-/**
- * The purpose of this function is to fetch data from an API endpoint and return the
- * film object using correctFilmIndex.
- * @param {number} correctFilmIndex Index of correct film.
- * @returns object of one film's data.
- */
-const fetchFilmObject = async correctFilmIndex => {
-    try {
-        const response = await fetch('https://pvieira04.github.io/minifilmdatabase/film.json');
-        const data = await response.json();
-        return data[correctFilmIndex];
-    }
-    catch(err) {
-        console.log(err);
-        const response = await fetch('./films.json');
-        const data = await response.json();
-        return data[correctFilmIndex];
-    }
-}
-
-
-
-const generateQuestion2 = async () => {
+const generateQuestion = async () => {
     // create the questionObject and asign to await fetchFilmArray().then(array => {do some stuff here})
     const questionObject = await fetchFilmsArray().then(array => {
         // first select a random index. This may be a separate function (generate random question number). This "i" is also know as the "correctFilmIndex".
-        const i = generateRandomQuestionNumber2(array);
+        const i = generateRandomQuestionNumber(array);
+        // push the film's [id] property to the global variable questionsAsked.
+        questionsAsked.push(array[i].id);
+        localStorage.filmsAlreadyUsed = questionsAsked;
+        // this is the array containing all the question objects - this can be added to.
         const questionTypeArray = [
             {
                 question : `"${array[i].title}", starring ${array[i].mainActor} as ${array[i].mainChar}, was released in which year?`,
@@ -183,14 +162,14 @@ const generateQuestion2 = async () => {
         const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
         const objectToReturn = questionTypeArray[questionTypeIndex];
         // before returning the object, we need to add the options as well as the correct option.
-        objectToReturn.options = generateOptions2(i, objectToReturn.answerType);
+        objectToReturn.options = generateOptions(array, i, objectToReturn.answerType);
         // return the object
         return objectToReturn
     })
     return questionObject;
 }
 
-const generateRandomQuestionNumber2 = array => {
+const generateRandomQuestionNumber = array => {
     while (true) {
         const idNumber = Math.floor(Math.random() * array.length) + 1;
         console.log(idNumber);
@@ -207,7 +186,7 @@ const generateRandomQuestionNumber2 = array => {
     }
 }
 
-const generateOptions2 = (i, answerType) => {
+const generateOptions = (array, i, answerType) => {
     let answerOptions = [];
         // generate a random position for the correct answer
         const correctPosition = Math.floor(Math.random() * 4);
@@ -234,123 +213,6 @@ const generateOptions2 = (i, answerType) => {
             }
         }
         return answerOptions
-}
-
-
-
-/**
- * This function's primary role is to generate the question which will be displayed on the screen.
- * This function takes no parameters and returns an object with three properties.
- * The first one is "question" which contains the actual question to be displayed on the screen.
- * The second is "answerType". This is needed to pass into another function later on to display answer options.
- * The last is "correctFilmIndex". This is the index of the film which was chosen to be the subject of the question.
- * "correctFilmIndex" is needed for answer checking later on.
- * @returns {Object}    This is an object with three properties
- */
-const generateQuestion = async () => {
-    // call generateRandomQuestionNumber and save it to "i". It is the index used for the current question.
-    const i = await generateRandomQuestionNumber();
-    // use this integer to select a question type - save to a variable;
-    const questionObject = await fetchFilmObject(i).then(film => {
-        // push the film's [id] property to the global variable questionsAsked.
-        questionsAsked.push(film.id);
-        localStorage.filmsAlreadyUsed = questionsAsked;
-        // this is the array containing all the question objects - this can be added to.
-        const questionTypeArray = [
-            {
-                question : `"${film.title}", starring ${film.mainActor} as ${film.mainChar}, was released in which year?`,
-                answerType : 'year'
-            },
-            {
-                question : `What is the name of the actor who plays ${film.mainChar} in "${film.title}", released in ${film.year}?`,
-                answerType : 'mainActor'
-            },
-            {
-                question : `Who does ${film.mainActor} play in ${film.year}'s "${film.title}"?`,
-                answerType : 'mainChar'
-            },
-            {
-                question : `Who directed "${film.title}", released in ${film.year}?`,
-                answerType : 'director'
-            }
-        ]
-        // generate a random integer between 0 and the length of the array(not inclusive);
-        const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
-        return questionTypeArray[questionTypeIndex];
-    });
-    // add a property to the questionObject containing the index of the film which is used as the subject of the question.
-    questionObject.correctFilmIndex = i;
-    // return the questionObject.
-    return questionObject;
-}
-
-/**
- * This function produces a random number which will be used 
- * to select a film to be the subject of a question.
- * It also checks whether that film has been selected before
- * and keeps generating new film indicies until it selects a 
- * film which has not been selected before.
- * The function takes in no parameters and returns an integer.
- */
-const generateRandomQuestionNumber = async () => {
-    const index = await fetchFilmsArray().then(array => {
-        console.log(array);
-        console.log(array.length);
-        while (true) {
-            const idNumber = Math.floor(Math.random() * array.length) + 1;
-            console.log(idNumber);
-            const correctFilmIndex = array.findIndex(((film) => film.id === idNumber));
-            console.log(correctFilmIndex);
-            const i = correctFilmIndex;
-            console.log(i);
-            if (questionsAsked.includes(array[i].id)) {
-                console.log(`The 'questionsAsked' array already has the id '${array[i].id}': ${questionsAsked.includes(array[i].id)}`)
-            }
-            else {
-                return i;
-            }
-        }
-    });
-    return index
-}
-
-/**
- * This function generates the text for the four options the user will be presented with.
- * @param {number} correctFilmIndex Integer which corresponds to the index of correct film.
- * @param {string} answerType Corresponds to the property key that this function wants to use to generate options.
- * @returns an array of four elements which will be the four options displayed to the user.
- */
-const generateOptions = async (correctFilmIndex, answerType) => {
-    // declare empty array - used to push options into.
-    const options = await fetchFilmsArray().then(array => {
-        let answerOptions = [];
-        // generate a random position for the correct answer
-        const correctPosition = Math.floor(Math.random() * 4);
-        // begin loop. If loop position is equal to position for correct answer, push correct answer
-        let loopPosition = 0;
-        while (answerOptions.length < 4) {
-            if (loopPosition === correctPosition) {
-                answerOptions.push(array[correctFilmIndex][`${answerType}`]);
-                loopPosition++;
-                continue
-            }
-            // if loop position is not euqual to correct answer position, find a random answer that exists inside the films object
-            else {
-                const randomFilmIndex = Math.floor(Math.random() * array.length);
-                // if it's equal to the correct answer, throw it away
-                if (array[randomFilmIndex][`${answerType}`] === array[correctFilmIndex][`${answerType}`]) continue
-                // if it already exists in the array, throw it away
-                if (answerOptions.includes(array[randomFilmIndex][`${answerType}`])) continue
-                // otherwise add the answer
-                answerOptions.push(array[randomFilmIndex][`${answerType}`]);
-                loopPosition++;
-                continue
-            }
-        }
-        return answerOptions
-    });
-    
-    return options;
 }
 
 /**
