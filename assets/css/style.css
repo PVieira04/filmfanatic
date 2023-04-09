@@ -13,10 +13,14 @@
 }
 
 body {
+    margin: 0;
     font-size: 100%;
     text-align: center;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .background {
@@ -47,7 +51,7 @@ body {
 
 #main {
     max-width: 1000px;
-    margin: auto;
+    margin: 0 auto;
     padding: 0 10px;
     display: flex;
     align-items: center;
@@ -59,7 +63,7 @@ body {
 h1 {
     position: relative;
     color: #D8321C;
-    margin: auto;
+    margin: 0 auto;
     font-size: 4.5em;
     font-family: waltograph, sans-serif;
     letter-spacing: 0.05em;
@@ -105,6 +109,10 @@ button:focus-visible {
 
 #answer-container button {
     display: block;
+}
+
+footer {
+    margin-top: auto;
 }
 
 @media only screen and (max-width : 550px) {
