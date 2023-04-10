@@ -24,7 +24,7 @@ body {
 }
 
 .background {
-    background-image: url(../media/background/cinema-tile.jpg);
+    background-image: url(../media/background/cinema-tile.webp);
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: 200px 200px;
