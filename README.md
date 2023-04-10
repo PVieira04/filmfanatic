@@ -295,4 +295,4 @@ The site was deployed to GitHub pages. The steps to deploy are as follows:
 
 ### Media
 
-- Thank you to [patternico](https://patternico.com) for allowing me to use your free tool to generate a seamless background to my site.
+- Thank you to [DGIM Studio at freepik.com](https://www.freepik.com/free-vector/seamless-pattern-with-cinema-elements_8084124.htm#query=cinema&position=8&from_view=keyword&track=sph) for allowing me to use your free seamless image for my background. This has been appropriately credited in the website footer according to the free licence.
