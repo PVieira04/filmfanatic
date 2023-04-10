@@ -2,9 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
 
 @font-face {
-    font-family: waltograph;
-    src: url(pvieira04.github.io/assets/media/fonts/waltograph42.otf);
-    src: url(pvieira04.github.io/assets/media/fonts/waltograph42.ttf);
+    font-family: 'waltographregular';
+    src: url('../fonts/waltograph42-webfont.woff2') format('woff2'),
+         url('../fonts/waltograph42-webfont.woff') format('woff'),
+         url('../fonts/waltograph42.otf') format('opentype'),
+         url('../fonts/waltograph42.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
     font-display: swap;
 }
 
@@ -66,7 +70,7 @@ h1 {
     color: #D8321C;
     margin: 2px auto;
     font-size: 4.5em;
-    font-family: waltograph, sans-serif;
+    font-family: waltographregular, sans-serif;
     letter-spacing: 0.05em;
     text-shadow: 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF, 0 0 10px #FFF;
 }
