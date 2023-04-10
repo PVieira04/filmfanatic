@@ -330,8 +330,8 @@ const loadStateFromLocalStorage = () => {
  * to the button which, when clicked, displays question 1.
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    next.innerHTML += "<button>Start Game</button>";
-    if (localStorage.startedQuiz == 'true') next.innerHTML += "<button>Load Game</button>";
+    next.innerHTML += "<button class='hover'>Start Game</button>";
+    if (localStorage.startedQuiz == 'true') next.innerHTML += "<button class='hover'>Load Game</button>";
     let playbuttons = document.getElementsByTagName('button');
     for (let button of playbuttons) {
         button.addEventListener('click', () => {
