@@ -131,6 +131,10 @@ const fetchFilmsArray = async () => {
     }
 }
 
+/**
+ * 
+ * @returns An object containing all info needed to create the question such as question text, type of answer and options.
+ */
 const generateQuestion = async () => {
     // create the questionObject and asign to await fetchFilmArray().then(array => {do some stuff here})
     const questionObject = await fetchFilmsArray().then(array => {
@@ -169,6 +173,11 @@ const generateQuestion = async () => {
     return questionObject;
 }
 
+/**
+ * This generates a random question between 1 and the length of the films array.
+ * @param {Array} array This is the whole films array taken from JSON.
+ * @returns an integer which is the same as the ID for the selected film.
+ */
 const generateRandomQuestionNumber = array => {
     while (true) {
         const idNumber = Math.floor(Math.random() * array.length) + 1;
@@ -186,6 +195,13 @@ const generateRandomQuestionNumber = array => {
     }
 }
 
+/**
+ * Generates four options which the user can shoose from. Returned as an array.
+ * @param {Array} array Films aray taken directly from JSON
+ * @param {Integer} i ID attribute of the selected film.
+ * @param {String} answerType Allows the code to extract the correct information from the films array.
+ * @returns an array containing four options which will be later pushed to the container in HTML.
+ */
 const generateOptions = (array, i, answerType) => {
     let answerOptions = [];
         // generate a random position for the correct answer
@@ -244,11 +260,20 @@ const displayResults = () => {
     })
 }
 
+/**
+ * This function descides what text is written on the button after answering a question.
+ * @param {Integer} questionNumber The current question number
+ * @returns text to be displayed in the button after answering a question
+ */
 const nextText = questionNumber => {
     if (questionNumber < 5) return "Next Question"
     else return "Show Results"
 }
 
+/**
+ * This function triggers whenever a question is answered. Its purpose is to add the
+ * content required and add event listeners to buttons.
+ */
 const nextButton = () => {
     console.log('this is the next button function');
     // delete hover class from buttons
@@ -281,37 +306,8 @@ const nextButton = () => {
 }
 
 /**
- * Thinking about a local storage function...
- * I could use the storage function to load the last question the user was on
- * as well as save the user's score from the previous session.
- * For example... If the user got question 1 and 2 correct but messed up
- * on question 3 and closed the tab...
- * I want the local storage function to kick in as soon as they reopen the window.
- * The first thing that JS does on reloading is to check whether someone is in the
- * middle of a game - boolean.
- * The local storage can be called everytime a question is asked... perhaps
- * with the properties currentQuestion, currentOptions, correctFilmIndex.
- * Once a user answers a question, another property called answered can be
- * written as true and if the user got the question correct, correctAnswers
- * can be incremented. The object could possibly look like this:
- * localStorage = {
- *      startedQuiz : true,
- *      filmsAlreadyUsed : 2,3,5
- *      correctlyAnswered : 2,
- *      savedQuestionNumber : 3,
- *      savedQuestion : '"Titanic", starring Leonardo DiCaprio as Jack Dawson, was release in which year?',
- *      savedOptions : [1998, 1977, 2021, 1997],
- *      correctFilmIndex : 4,
- *      answerType : 'year'
- *      answered : true,
- *      selectedOptionIndex : 1,
- *      highlight : '#E17575'
- *      feedbackMessage : 'Sorry! That is incorrect. The correct answer is 1997.'
- * }
+ * This function loads the last known question from local storage to global variables.
  */
-
-
-//I need a function here which resets the localstorage object. TODO
 const loadStateFromLocalStorage = () => {
     next.innerHTML = '';
     console.log('we have detected the quiz has begun');
