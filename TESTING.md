@@ -64,8 +64,8 @@ Desktop
 
 - Several issues were encountered when calling from local storage because I did not realise that all values in the local storage object can only be saved as strings. This was fixed using various methods to parse them before using them in the code, such as converting to numbers or to arrays.
 
+- Safari browser and mobile devices had the h1 container for the page shorter than it should be, cutting off the top of the text. This is now fixed and the solution was to include multiple formats for the browser to choose from. I previously only included the Open Type Font (otf) format.
+
 ## Known Issues
 
 - There has been an error where, when loading from local storage, a method would not function correctly and return a "-1" rather than a positive integer. I have not been able to replicate the error in my testing, nor have I seen this error being thrown in any of my testing since then. The issue seems to have resolved but safely documenting it here in case it crops up again.
-
-- Safari browser and mobile devices have the h1 container for the page shorter than it should be, cutting off the top of the text.
