@@ -1,3 +1,4 @@
+/* Establish fonts */
 @import url('https://fonts.googleapis.com/css2?family=Lora');
 
 @font-face {
@@ -10,10 +11,14 @@
     font-style: normal;
 }
 
+/* General styles applied to all */
+
 * {
     box-sizing: border-box;
     font-family: 'lora', sans-serif;
 }
+
+/* Styles for the body element */
 
 body {
     margin: 0;
@@ -25,6 +30,8 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
+/* Styling for the seamless background */
 
 .background {
     background-image: url(../media/background/cinema-tile.webp);
@@ -51,6 +58,8 @@ body {
     background-color: white;
     z-index: -1;
 }
+
+/* Styles for site content which lies on top of the background image */
 
 #main {
     max-width: 1000px;
@@ -115,6 +124,8 @@ button:focus-visible {
     display: block;
 }
 
+/* Styles for the footer */
+
 footer {
     margin-top: auto;
     color: black;
@@ -154,6 +165,8 @@ footer div a:hover {
     color: #D8321C;
     font-weight: bold;
 }
+
+/* Media query for smaller screen sizes */
 
 @media only screen and (max-width : 550px) {
     #answer-container {
