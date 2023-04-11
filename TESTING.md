@@ -39,7 +39,8 @@ I have asked many different users to test the website and all have gone through 
 
 ## Device Testing
 
-- One Plus 6: The h1 element is cut off from the top of the page, much like with Safari browser.
+- One Plus 6: Works as intended. Previous issue with h1 element has been resolved.
+- Samsung S21 FE: Works as intended.
 
 ## Lighthouse Report
 
