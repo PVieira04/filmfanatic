@@ -13,103 +13,47 @@ let optionType = '';
 let correctFilmIndex = null;
 
 /**
- * This function displays the question and four options for the user 
- * to choose.
- * When the user clicks on an option, the code checks whether the 
- * answer is correct or not.
- * Feedback will be given following the user's selection and a 
- * "Next Question" button will be displayed.
- * This function takes in no properties and does not return anything. 
- * It is a state the page stays in until the user interacts with it.
+ * This function generates all questions at the beginning of the code
+ * and is run only when the user click on the "Start Game" button.
  */
-const displayQuestion = async () => {
-    console.log(`The previous state will be loaded: ${localStorage.stateLoaded}`)
-    if (localStorage.stateLoaded === 'false') {
-        // tell localStorage the user has started the quiz.
-        localStorage.startedQuiz = 'true';
-        // call generateQuestion and save the returned object to a variable.
-        const questionObject = await generateQuestion();
-        // extract the question which will be displayed into a variable.
-        console.log(`question text: ${questionText}`);
-        questionText = questionObject.question;
-        console.log(`question text: ${questionText}`);
-        // extract the index of the correct film - save to a variable.
-        correctFilmIndex = questionObject.correctFilmIndex;
-        // extract the answerType property into a variable
-        optionType = questionObject.answerType
-        // call generateOptions and save to options variable - this is an array containing four elements.
-        options = questionObject.options;
-        // save values to localStorage
-        localStorage.correctFilmIndex = correctFilmIndex;
-        localStorage.savedQuestionNumber = currentQuestion;
-        localStorage.savedQuestion = questionText;
-        localStorage.savedOptions = options;
-        localStorage.answerType = questionObject.answerType;
-    }
-    // display the question number on the page.
-    divHead.textContent = `Question ${currentQuestion}`;
-    // display the question on the screen.
-    divText.textContent = questionText;
-    // create four buttons which each contain one element from the options array.
-    for (let i = 0; i < 4; i++) {
-        answerContainer.innerHTML += `<button class='option hover'>${options[i]}</button>`
-    }
-    // declare variable which determines whether user has answered question or not.
-    let answered = false;
-    // save the four buttons in a variable as an array.
-    const buttons = document.getElementsByClassName('option');
-    // if user is loading a saved question they have already answered, add highlight and feedback message.
-    if (localStorage.answered === 'true') {
-        console.log(Number(localStorage.selectedOptionIndex));
-        buttons[Number(localStorage.selectedOptionIndex)].style.backgroundColor = localStorage.highlight;
-        feedback.textContent = localStorage.feedbackMessage;
-        answered = true;
-        nextButton();
-    }
-    else {
-        // cycle through the array and add event listeners.
-        for (let button of buttons) {
-            button.addEventListener('click', async function () {
-                // if user has answered question already, don't do anything when user clicks again.
-                if (answered === true) {
-                    return
+const generateQuestions = async () => {
+    localStorage.startedQuiz = 'true';
+    localStorage.correctlyAnswered = 0;
+    await fetchFilmsArray().then(array => {
+        //First generate question, save data as q1.questiontext
+        for (let qNum = 1; qNum <= 5; qNum++) {
+            //select random index
+            const i = generateRandomQuestionNumber(array);
+            correctFilmIndex = i;
+            const questionTypeArray = [
+                {
+                    question : `"${array[i].title}", starring ${array[i].mainActor} as ${array[i].mainChar}, was released in which year?`,
+                    answerType : 'year'
+                },
+                {
+                    question : `What is the name of the actor who plays ${array[i].mainChar} in "${array[i].title}", released in ${array[i].year}?`,
+                    answerType : 'mainActor'
+                },
+                {
+                    question : `Who does ${array[i].mainActor} play in ${array[i].year}'s "${array[i].title}"?`,
+                    answerType : 'mainChar'
+                },
+                {
+                    question : `Who directed "${array[i].title}", released in ${array[i].year}?`,
+                    answerType : 'director'
                 }
-                else {
-                    // change answered to "true".
-                    answered = true;
-                    // tell local storage question has been answered.
-                    localStorage.answered = true;
-                    // assign selected option index to local storage
-                    localStorage.selectedOption = this.textContent;
-                    localStorage.selectedOptionIndex = options.findIndex((option) => {
-                        if (localStorage.selectedOption === option) return option
-                    });
-                    // check if the text inside the element which was clicked is the same as the correct answer.
-                    if (this.textContent == localStorage.answer) {
-                        // set local storage to save green color.
-                        localStorage.highlight = '#50A93C';
-                        // set local storage to save feedback message.
-                        localStorage.feedbackMessage = 'Correct!';
-                        // increment the correct variable by one.
-                        correct++;
-                        // save it to local storage.
-                        localStorage.correctlyAnswered = correct;
-                    }
-                    else {
-                        // set local storage to save red color.
-                        localStorage.highlight = '#E17575';
-                        // set local storage to save feedback message.
-                        localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${localStorage.answer}.`;
-                    }
-                    // load highlight color from local storage.
-                    this.style.backgroundColor = localStorage.highlight;
-                    // give the user feedback on their answer.
-                    feedback.textContent = localStorage.feedbackMessage;
-                }
-                nextButton();
-            })
+            ]
+            // generate a random integer between 0 and the length of the array(not inclusive);
+            const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
+            //assign data to local storage
+            localStorage[`q${qNum}Text`] = questionTypeArray[questionTypeIndex].question;
+            localStorage[`q${qNum}Answer`] = array[i][`${questionTypeArray[questionTypeIndex].answerType}`];
+            // generate options and assign to localStorage
+            localStorage[`q${qNum}Options`] = generateOptions(array, i, questionTypeArray[questionTypeIndex].answerType);
         }
-    }
+    })
+    localStorage.currentQuestion = 1;
+    displayQuestion();
 }
 
 /**
@@ -132,48 +76,6 @@ const fetchFilmsArray = async () => {
 }
 
 /**
- * 
- * @returns An object containing all info needed to create the question such as question text, type of answer and options.
- */
-const generateQuestion = async () => {
-    // create the questionObject and asign to await fetchFilmArray().then(array => {do some stuff here})
-    const questionObject = await fetchFilmsArray().then(array => {
-        // first select a random index. This may be a separate function (generate random question number). This "i" is also know as the "correctFilmIndex".
-        const i = generateRandomQuestionNumber(array);
-        // push the film's [id] property to the global variable questionsAsked.
-        questionsAsked.push(array[i].id);
-        localStorage.filmsAlreadyUsed = questionsAsked;
-        // this is the array containing all the question objects - this can be added to.
-        const questionTypeArray = [
-            {
-                question : `"${array[i].title}", starring ${array[i].mainActor} as ${array[i].mainChar}, was released in which year?`,
-                answerType : 'year'
-            },
-            {
-                question : `What is the name of the actor who plays ${array[i].mainChar} in "${array[i].title}", released in ${array[i].year}?`,
-                answerType : 'mainActor'
-            },
-            {
-                question : `Who does ${array[i].mainActor} play in ${array[i].year}'s "${array[i].title}"?`,
-                answerType : 'mainChar'
-            },
-            {
-                question : `Who directed "${array[i].title}", released in ${array[i].year}?`,
-                answerType : 'director'
-            }
-        ]
-        // generate a random integer between 0 and the length of the array(not inclusive);
-        const questionTypeIndex = Math.floor(Math.random() * questionTypeArray.length);
-        const objectToReturn = questionTypeArray[questionTypeIndex];
-        // before returning the object, we need to add the options as well as the correct option.
-        objectToReturn.options = generateOptions(array, i, objectToReturn.answerType);
-        // return the object
-        return objectToReturn
-    })
-    return questionObject;
-}
-
-/**
  * This generates a random question between 1 and the length of the films array.
  * @param {Array} array This is the whole films array taken from JSON.
  * @returns an integer which is the same as the ID for the selected film.
@@ -190,6 +92,7 @@ const generateRandomQuestionNumber = array => {
             console.log(`The 'questionsAsked' array already has the id '${array[i].id}': ${questionsAsked.includes(array[i].id)}`)
         }
         else {
+            questionsAsked.push(array[i].id)
             return i;
         }
     }
@@ -232,42 +135,85 @@ const generateOptions = (array, i, answerType) => {
 }
 
 /**
- * This function displays the results to the user and asks if the user wants to play the game again.
- * displayResults takes in no parameters and does not return anything. It is a state that the page
- * stays in until the user clicks on the "Play Again" button or refreshes the page.
+ * This function displays the question and four options for the user 
+ * to choose.
+ * When the user clicks on an option, the code checks whether the 
+ * answer is correct or not.
+ * Feedback will be given following the user's selection and a 
+ * "Next Question" button will be displayed.
+ * This function takes in no properties and does not return anything. 
+ * It is a state the page stays in until the user interacts with it.
  */
-const displayResults = () => {
-    // clear local sotrage.
-    localStorage.clear();
-    // display results
-    divHead.textContent = 'Results';
-    divText.textContent = `You scored ${correct} out of 5!`;
-    // create button that allows the user to play again.
-    next.innerHTML = `<button id='play-again' class='hover'>Play Again</button>`;
-    // change focus to Play Again button.
-    document.getElementById('play-again').focus();
-    // add event listener to button.
-    next.children[0].addEventListener('click', function() {
-        // initialise required variables.
-        correct = 0;
-        currentQuestion = 1;
-        questionsAsked = [];
-        next.innerHTML = '';
-        // load state should be false;
-        localStorage.stateLoaded = 'false';
-        // call question one.
-        displayQuestion();
-    })
-}
-
-/**
- * This function descides what text is written on the button after answering a question.
- * @param {Integer} questionNumber The current question number
- * @returns text to be displayed in the button after answering a question
- */
-const nextText = questionNumber => {
-    if (questionNumber < 5) return "Next Question"
-    else return "Show Results"
+const displayQuestion = () => {
+    console.log(`Correct Answers Given: ${correct}`)
+    console.log(`Correct Answers Given: ${localStorage.correctlyAnswered}`)
+    // display the question number on the page.
+    divHead.textContent = `Question ${localStorage.currentQuestion}`;
+    // display the question on the screen.
+    divText.textContent = localStorage[`q${currentQuestion}Text`];
+    options = localStorage[`q${currentQuestion}Options`].split(',');
+    // create four buttons which each contain one element from the options array.
+    for (let i = 0; i < 4; i++) {
+        answerContainer.innerHTML += `<button class='option hover'>${options[i]}</button>`
+    }
+    // declare variable which determines whether user has answered question or not.
+    let answered = false;
+    // save the four buttons in a variable as an array.
+    const buttons = document.getElementsByClassName('option');
+    // if user is loading a saved question they have already answered, add highlight and feedback message.
+    if (localStorage.answered === 'true') {
+        console.log(Number(localStorage.selectedOptionIndex));
+        buttons[Number(localStorage.selectedOptionIndex)].style.backgroundColor = localStorage.highlight;
+        feedback.textContent = localStorage.feedbackMessage;
+        answered = true;
+        nextButton();
+    }
+    else {
+        // cycle through the array and add event listeners.
+        for (let button of buttons) {
+            button.addEventListener('click', async function () {
+                // if user has answered question already, don't do anything when user clicks again.
+                if (answered === true) {
+                    return
+                }
+                else {
+                    // change answered to "true".
+                    answered = true;
+                    // tell local storage question has been answered.
+                    localStorage.answered = true;
+                    // assign selected option index to local storage
+                    localStorage.selectedOption = this.textContent;
+                    localStorage.selectedOptionIndex = options.findIndex((option) => {
+                        if (localStorage.selectedOption === option) return option
+                    });
+                    // check if the text inside the element which was clicked is the same as the correct answer.
+                    if (this.textContent == localStorage[`q${currentQuestion}Answer`]) {
+                        // set local storage to save green color.
+                        localStorage.highlight = '#50A93C';
+                        // set local storage to save feedback message.
+                        localStorage.feedbackMessage = 'Correct!';
+                        // increment the correct variable by one.
+                        correct++;
+                        // save it to local storage.
+                        localStorage.correctlyAnswered = correct;
+                    }
+                    else {
+                        // set local storage to save red color.
+                        localStorage.highlight = '#E17575';
+                        // set variable for correct answer text.
+                        const correctAnswer = localStorage[`q${currentQuestion}Answer`]
+                        // set local storage to save feedback message.
+                        localStorage.feedbackMessage = `Sorry! That is incorrect. The correct answer is ${correctAnswer}.`;
+                    }
+                    // load highlight color from local storage.
+                    this.style.backgroundColor = localStorage.highlight;
+                    // give the user feedback on their answer.
+                    feedback.textContent = localStorage.feedbackMessage;
+                }
+                nextButton();
+            })
+        }
+    }
 }
 
 /**
@@ -296,8 +242,9 @@ const nextButton = () => {
         if (currentQuestion < 5) {
             // set load state to flase.
             localStorage.stateLoaded = 'false';
-            // increment the current question by one.
+            // increment the current question by one and save to local Storage
             currentQuestion++;
+            localStorage.currentQuestion = currentQuestion;
             displayQuestion();
         }
         // If so, display results.
@@ -306,23 +253,42 @@ const nextButton = () => {
 }
 
 /**
- * This function loads the last known question from local storage to global variables.
+ * This function descides what text is written on the button after answering a question.
+ * @param {Integer} questionNumber The current question number
+ * @returns text to be displayed in the button after answering a question
  */
-const loadStateFromLocalStorage = () => {
-    next.innerHTML = '';
-    console.log('we have detected the quiz has begun');
-    console.log('initialising variables');
-    correct = localStorage.correctlyAnswered ? Number(localStorage.correctlyAnswered) : 0;
-    questionsAsked = localStorage.filmsAlreadyUsed.split(',').map(num => Number(num));
-    console.log(`You have been asked qeustions: ${questionsAsked}`);
-    currentQuestion = localStorage.savedQuestionNumber;
-    questionText = localStorage.savedQuestion;
-    options = localStorage.savedOptions.split(',');
-    console.log(`These are the saved options: ${options}`);
-    optionType = localStorage.answerType;
-    correctFilmIndex = localStorage.correctFilmIndex;
-    localStorage.stateLoaded = 'true';
-    displayQuestion();
+const nextText = questionNumber => {
+    if (questionNumber < 5) return "Next Question"
+    else return "Show Results"
+}
+
+/**
+ * This function displays the results to the user and asks if the user wants to play the game again.
+ * displayResults takes in no parameters and does not return anything. It is a state that the page
+ * stays in until the user clicks on the "Play Again" button or refreshes the page.
+ */
+const displayResults = () => {
+    // clear local sotrage.
+    localStorage.clear();
+    // display results
+    divHead.textContent = 'Results';
+    divText.textContent = `You scored ${correct} out of 5!`;
+    // create button that allows the user to play again.
+    next.innerHTML = `<button id='play-again' class='hover'>Play Again</button>`;
+    // change focus to Play Again button.
+    document.getElementById('play-again').focus();
+    // add event listener to button.
+    next.children[0].addEventListener('click', function() {
+        // initialise required variables.
+        correct = 0;
+        currentQuestion = 1;
+        questionsAsked = [];
+        next.innerHTML = '';
+        // load state should be false;
+        localStorage.stateLoaded = 'false';
+        // call question one.
+        generateQuestions();
+    })
 }
 
 /**
@@ -335,13 +301,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let playbuttons = document.getElementsByTagName('button');
     for (let button of playbuttons) {
         button.addEventListener('click', () => {
+            next.innerHTML = '';
             if (button.textContent === 'Start Game') {
                 localStorage.clear();
                 localStorage.stateLoaded = 'false';
-                next.innerHTML = '';
+                generateQuestions();
+            }
+            else {
+                correct = Number(localStorage.correctlyAnswered);
+                currentQuestion = Number(localStorage.currentQuestion);
                 displayQuestion();
             }
-            else loadStateFromLocalStorage();
         })
     }
     console.log(localStorage)
